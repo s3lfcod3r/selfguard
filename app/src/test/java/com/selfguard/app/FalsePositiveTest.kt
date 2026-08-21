@@ -12,15 +12,15 @@ import org.junit.Assert.assertTrue
 import org.junit.Test
 
 /**
- * Haelt die Fehlalarme fest, die auf einem echten Samsung aufgetreten sind.
+ * Hält die Fehlalarme fest, die auf einem echten Samsung aufgetreten sind.
  *
  * Beide waren schlimmer als eine verpasste Erkennung: Wer einmal erlebt, dass
- * die App eine Android-Systemkomponente als Ueberwachungssoftware meldet,
- * glaubt ihr auch beim naechsten, echten Treffer nicht mehr.
+ * die App eine Android-Systemkomponente als Überwachungssoftware meldet,
+ * glaubt ihr auch beim nächsten, echten Treffer nicht mehr.
  */
 class FalsePositiveTest {
 
-    /** Der AOSP-Testschluessel -- oeffentlich, von jedem verwendbar. */
+    /** Der AOSP-Testschlüssel -- öffentlich, von jedem verwendbar. */
     private val aospTestKey = "61ed377e85d386a8dfee6b864bd85b0bfaa5af81"
 
     private fun app(
@@ -60,7 +60,7 @@ class FalsePositiveTest {
     @Test
     fun `meldet Systemkomponente nicht als Stalkerware`() {
         // Genau der Fall aus dem Feld: com.android.cts.ctsshim ist mit dem
-        // AOSP-Testschluessel signiert, der im Datensatz stand.
+        // AOSP-Testschlüssel signiert, der im Datensatz stand.
         val iocs = DetectorContext(stalkerwareCertSha1 = setOf(aospTestKey))
         val findings = StalkerwareDetector.inspect(
             app(
@@ -75,9 +75,9 @@ class FalsePositiveTest {
     }
 
     @Test
-    fun `wertet den oeffentlichen AOSP-Schluessel nie als Treffer`() {
-        // Auch bei einer selbst installierten App darf dieser Schluessel
-        // keinen Treffer erzeugen -- er sagt ueber die App nichts aus.
+    fun `wertet den öffentlichen AOSP-Schlüssel nie als Treffer`() {
+        // Auch bei einer selbst installierten App darf dieser Schlüssel
+        // keinen Treffer erzeugen -- er sagt über die App nichts aus.
         val iocs = DetectorContext(stalkerwareCertSha1 = setOf(aospTestKey))
         val findings = StalkerwareDetector.inspect(
             app(packageName = "de.eigene.app", signingSha1 = listOf(aospTestKey)),
@@ -87,7 +87,7 @@ class FalsePositiveTest {
     }
 
     @Test
-    fun `erkennt den AOSP-Schluessel als oeffentlich`() {
+    fun `erkennt den AOSP-Schlüssel als öffentlich`() {
         assertTrue(PublicSigningKeys.isPublic(aospTestKey))
         assertTrue(PublicSigningKeys.isPublic(aospTestKey.uppercase()))
         assertFalse(PublicSigningKeys.isPublic("c".repeat(40)))
@@ -144,11 +144,11 @@ class FalsePositiveTest {
     fun `entfernt beim Aufbereiten Zertifikate mehrerer Anbieter`() {
         val samples = buildString {
             appendLine("SHA256,Package Name,Certificate,Version,App")
-            // Ein Schluessel, drei unabhaengige Anbieter -> muss rausfliegen.
+            // Ein Schlüssel, drei unabhängige Anbieter -> muss rausfliegen.
             appendLine("${"1".repeat(64)},com.a,$aospTestKey,1,AnbieterA")
             appendLine("${"2".repeat(64)},com.b,$aospTestKey,1,AnbieterB")
             appendLine("${"3".repeat(64)},com.c,$aospTestKey,1,AnbieterC")
-            // Ein Schluessel, ein Anbieter -> muss bleiben.
+            // Ein Schlüssel, ein Anbieter -> muss bleiben.
             appendLine("${"4".repeat(64)},com.d,${"e".repeat(40)},1,AnbieterD")
         }
         val rendered = IocUpdater.render(samples, "type,indicator,app\n")

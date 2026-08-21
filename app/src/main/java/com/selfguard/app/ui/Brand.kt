@@ -15,7 +15,7 @@ import com.selfguard.app.R
 import com.selfguard.app.ui.theme.Self
 
 /**
- * Marken-Schrift. Orbitron liegt **lokal** im Projekt, nicht ueber Google
+ * Marken-Schrift. Orbitron liegt **lokal** im Projekt, nicht über Google
  * Fonts -- so schreibt es die Self-Markenrichtlinie vor.
  */
 val Orbitron = FontFamily(Font(R.font.orbitron, FontWeight.Bold))
@@ -23,7 +23,7 @@ val Orbitron = FontFamily(Font(R.font.orbitron, FontWeight.Bold))
 /**
  * Der Self-Schriftzug: "Self" in Eis-Blau, der Projektteil in Teal.
  *
- * Aufbau und Farben stammen aus `brand-kit/logo/LOGO.md` und sind fuer alle
+ * Aufbau und Farben stammen aus `brand-kit/logo/LOGO.md` und sind für alle
  * Self-Projekte gleich -- nur der zweite Teil wechselt.
  */
 @Composable

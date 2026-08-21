@@ -1,7 +1,7 @@
 package com.selfguard.app.net
 
 /**
- * Ein aus dem Tunnel gelesenes UDP-Paket, so weit zerlegt wie noetig.
+ * Ein aus dem Tunnel gelesenes UDP-Paket, so weit zerlegt wie nötig.
  */
 data class UdpDatagram(
     val sourceAddress: ByteArray,
@@ -36,11 +36,11 @@ data class UdpDatagram(
 /**
  * Der Umgang mit rohen IPv4-Paketen aus der Tunnelschnittstelle.
  *
- * Warum das ueberhaupt noetig ist: aus einem VpnService kommen rohe
+ * Warum das überhaupt nötig ist: aus einem VpnService kommen rohe
  * IP-Pakete, keine fertigen Datagramme. Der Umfang bleibt aber winzig, weil
- * die Tunnelschnittstelle so eng geroutet wird, dass **ausschliesslich**
- * DNS-Verkehr hier ankommt. Ohne diesen Kniff muesste man den gesamten
- * Netzverkehr des Geraets zerlegen -- der Aufwand, fuer den andere Projekte
+ * die Tunnelschnittstelle so eng geroutet wird, dass **ausschließlich**
+ * DNS-Verkehr hier ankommt. Ohne diesen Kniff müsste man den gesamten
+ * Netzverkehr des Geräts zerlegen -- der Aufwand, für den andere Projekte
  * einen kompletten Netzwerkstapel mitbringen.
  *
  * IPv6 wird bewusst nicht behandelt: die Tunnelschnittstelle bekommt nur eine
@@ -60,12 +60,12 @@ object Ipv4Udp {
     private const val OFFSET_SOURCE_IP = 12
     private const val OFFSET_DEST_IP = 16
 
-    /** Standardwert fuer die Lebensdauer; das Paket bleibt ohnehin lokal. */
+    /** Standardwert für die Lebensdauer; das Paket bleibt ohnehin lokal. */
     private const val DEFAULT_TTL = 64
 
     /**
      * Zerlegt ein rohes Paket. Alles, was kein IPv4-UDP ist, liefert null und
-     * wird vom Aufrufer unveraendert verworfen.
+     * wird vom Aufrufer unverändert verworfen.
      */
     fun parse(packet: ByteArray, length: Int): UdpDatagram? {
         if (length < IP_HEADER_SIZE) return null
@@ -82,7 +82,7 @@ object Ipv4Udp {
 
         val udpStart = headerSize
         val udpLength = readUShort(packet, udpStart + 4)
-        // Die Laengenangabe schliesst den UDP-Kopf ein.
+        // Die Längenangabe schließt den UDP-Kopf ein.
         val payloadSize = (udpLength - UDP_HEADER_SIZE)
             .coerceAtMost(length - udpStart - UDP_HEADER_SIZE)
         if (payloadSize <= 0) return null
@@ -98,12 +98,12 @@ object Ipv4Udp {
     }
 
     /**
-     * Baut die Antwort zurueck an den Fragesteller: Adressen und Anschluesse
+     * Baut die Antwort zurück an den Fragesteller: Adressen und Anschlüsse
      * werden getauscht, die Nutzdaten sind die DNS-Antwort.
      *
-     * Die UDP-Pruefsumme bleibt null. Bei IPv4 ist das ausdruecklich erlaubt
+     * Die UDP-Prüfsumme bleibt null. Bei IPv4 ist das ausdrücklich erlaubt
      * und bedeutet "nicht berechnet" -- das spart einen Rechendurchgang je
-     * Antwort. Die IP-Pruefsumme dagegen ist Pflicht und wird gesetzt.
+     * Antwort. Die IP-Prüfsumme dagegen ist Pflicht und wird gesetzt.
      */
     fun buildResponse(request: UdpDatagram, payload: ByteArray): ByteArray {
         val totalLength = IP_HEADER_SIZE + UDP_HEADER_SIZE + payload.size
@@ -134,7 +134,7 @@ object Ipv4Udp {
         return packet
     }
 
-    /** Einerkomplement-Pruefsumme nach RFC 1071. */
+    /** Einerkomplement-Prüfsumme nach RFC 1071. */
     private fun checksum(buffer: ByteArray, offset: Int, length: Int): Int {
         var sum = 0L
         var index = offset
@@ -146,7 +146,7 @@ object Ipv4Udp {
         }
         if (index < end) sum += ((buffer[index].toInt() and 0xFF) shl 8).toLong()
 
-        // Ueberlaeufe zurueck in die unteren 16 Bit falten.
+        // Überläufe zurück in die unteren 16 Bit falten.
         while (sum shr 16 != 0L) sum = (sum and 0xFFFF) + (sum shr 16)
         return (sum.inv() and 0xFFFF).toInt()
     }

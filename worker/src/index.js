@@ -1,10 +1,10 @@
 /**
  * SelfGuard Reputationsdienst.
  *
- * Zweck: Die App soll Datei-Pruefsummen gegen MalwareBazaar und VirusTotal
- * pruefen koennen, ohne dass ein API-Schluessel im APK liegt. Ein Schluessel
+ * Zweck: Die App soll Datei-Prüfsummen gegen MalwareBazaar und VirusTotal
+ * prüfen können, ohne dass ein API-Schlüssel im APK liegt. Ein Schlüssel
  * im Programmcode ist in Minuten ausgelesen -- deshalb kennt die App nur die
- * Adresse dieses Workers, und die Schluessel liegen ausschliesslich hier als
+ * Adresse dieses Workers, und die Schlüssel liegen ausschließlich hier als
  * Cloudflare-Secrets.
  *
  * Einrichtung:
@@ -25,9 +25,9 @@ const CACHE_TTL_HIT_SECONDS = 60 * 60 * 24 * 7;
 const CACHE_TTL_MISS_SECONDS = 60 * 60 * 6;
 
 /**
- * VirusTotal meldet fuer nahezu jede Datei ein paar Fehlalarme einzelner
- * Motoren. Erst ab mehreren unabhaengigen Erkennungen ist die Aussage
- * belastbar -- darunter wuerde die App bei harmlosen Dateien Alarm schlagen.
+ * VirusTotal meldet für nahezu jede Datei ein paar Fehlalarme einzelner
+ * Motoren. Erst ab mehreren unabhängigen Erkennungen ist die Aussage
+ * belastbar -- darunter würde die App bei harmlosen Dateien Alarm schlagen.
  */
 const VIRUSTOTAL_MIN_DETECTIONS = 3;
 
@@ -40,10 +40,10 @@ export default {
       return json({ error: 'nur GET' }, 405);
     }
 
-    // Der Dienst haengt an fremden Kontingenten: VirusTotal erlaubt kostenlos
+    // Der Dienst hängt an fremden Kontingenten: VirusTotal erlaubt kostenlos
     // rund 500 Abfragen am Tag, MalwareBazaar arbeitet nach Fair Use. Ohne
-    // Begrenzung koennte jeder, der die Adresse kennt, beides leerlaufen
-    // lassen -- und der Dienst waere fuer den eigentlichen Zweck tot.
+    // Begrenzung könnte jeder, der die Adresse kennt, beides leerlaufen
+    // lassen -- und der Dienst wäre für den eigentlichen Zweck tot.
     const limited = await rateLimited(request, env);
     if (limited) {
       return json(
@@ -62,11 +62,11 @@ export default {
 
     const hash = match[1].toLowerCase();
     if (!SHA256_PATTERN.test(hash)) {
-      return json({ error: 'keine gueltige SHA-256' }, 400);
+      return json({ error: 'keine gültige SHA-256' }, 400);
     }
 
-    // Cloudflares Randspeicher haelt die Antwort, damit dieselbe Pruefsumme
-    // nicht wiederholt gegen die Fremdkonten laeuft.
+    // Cloudflares Randspeicher hält die Antwort, damit dieselbe Prüfsumme
+    // nicht wiederholt gegen die Fremdkonten läuft.
     const cache = caches.default;
     const cacheKey = new Request(url.toString(), request);
     const cached = await cache.match(cacheKey);
@@ -85,10 +85,10 @@ export default {
 };
 
 /**
- * MalwareBazaar von abuse.ch. Kostenlos nutzbar, benoetigt seit 2024 einen
+ * MalwareBazaar von abuse.ch. Kostenlos nutzbar, benötigt seit 2024 einen
  * Auth-Key von https://auth.abuse.ch/.
  *
- * Wird zuerst gefragt, weil der Datensatz auf Android-Schadsoftware deutlich
+ * Wird zürst gefragt, weil der Datensatz auf Android-Schadsoftware deutlich
  * ergiebiger ist als der Querschnitt bei VirusTotal.
  */
 async function lookupMalwareBazaar(hash, env) {
@@ -121,7 +121,7 @@ async function lookupMalwareBazaar(hash, env) {
 
 /**
  * VirusTotal als zweite Meinung. Der kostenlose Zugang erlaubt rund vier
- * Abfragen je Minute und 500 am Tag -- deshalb nur als Rueckfallebene und
+ * Abfragen je Minute und 500 am Tag -- deshalb nur als Rückfallebene und
  * hinter dem Zwischenspeicher.
  */
 async function lookupVirusTotal(hash, env) {
@@ -154,11 +154,11 @@ async function lookupVirusTotal(hash, env) {
  * Begrenzt die Abfragen je Absenderadresse.
  *
  * Nutzt das Rate-Limiting-Binding aus `wrangler.toml`. Fehlt das Binding --
- * etwa bei einer aelteren Wrangler-Fassung -- laesst der Dienst die Anfrage
+ * etwa bei einer älteren Wrangler-Fassung -- lässt der Dienst die Anfrage
  * durch, statt alles zu blockieren. Das ist die bewusste Entscheidung: ein
- * Reputationsdienst, der nach einer Konfigurationsluecke gar nichts mehr
- * beantwortet, faellt beim Nutzer als kaputte App auf, waehrend das Kontingent
- * ohnehin durch den Zwischenspeicher geschuetzt bleibt.
+ * Reputationsdienst, der nach einer Konfigurationslücke gar nichts mehr
+ * beantwortet, fällt beim Nutzer als kaputte App auf, während das Kontingent
+ * ohnehin durch den Zwischenspeicher geschützt bleibt.
  */
 async function rateLimited(request, env) {
   if (!env.REPUTATION_LIMITER) return false;
@@ -171,7 +171,7 @@ async function rateLimited(request, env) {
 function json(payload, status = 200, cacheSeconds = 0, extraHeaders = {}) {
   const headers = {
     'Content-Type': 'application/json; charset=utf-8',
-    // Der Dienst beantwortet nur Pruefsummen und speichert nichts vom Nutzer.
+    // Der Dienst beantwortet nur Prüfsummen und speichert nichts vom Nutzer.
     'Cache-Control': cacheSeconds > 0 ? `public, max-age=${cacheSeconds}` : 'no-store',
     // Der Dienst wird von der App aufgerufen, nie aus einem Browser-Kontext.
     // Ohne CORS-Freigabe kann keine fremde Webseite ihn im Namen eines

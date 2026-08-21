@@ -4,7 +4,7 @@ import java.io.File
 import java.io.InputStream
 import java.security.MessageDigest
 
-/** SHA-256 an einer Stelle -- fuer Zertifikate wie fuer Dateien. */
+/** SHA-256 an einer Stelle -- für Zertifikate wie für Dateien. */
 object Hashing {
 
     private const val BUFFER_SIZE = 64 * 1024
@@ -13,8 +13,8 @@ object Hashing {
         MessageDigest.getInstance("SHA-256").digest(bytes).toHex()
 
     /**
-     * SHA-1 wird ausschliesslich fuer den Abgleich mit fremden Datensaetzen
-     * gebraucht -- der Stalkerware-Datensatz von Echap fuehrt
+     * SHA-1 wird ausschließlich für den Abgleich mit fremden Datensätzen
+     * gebraucht -- der Stalkerware-Datensatz von Echap führt
      * Signaturzertifikate als SHA-1-Fingerabdruck. Nicht als Sicherheitsmerkmal
      * verwenden, SHA-1 gilt als gebrochen.
      */
@@ -22,11 +22,11 @@ object Hashing {
         MessageDigest.getInstance("SHA-1").digest(bytes).toHex()
 
     /**
-     * Haelt den Speicherverbrauch unabhaengig von der Dateigroesse -- eine
-     * 4-GB-Videodatei darf den Scan nicht abschiessen.
+     * Hält den Speicherverbrauch unabhängig von der Dateigröße -- eine
+     * 4-GB-Videodatei darf den Scan nicht abschießen.
      *
-     * @param onProgress erhaelt die bisher gelesenen Bytes, damit lange Scans
-     *   abbrechbar bleiben. Gibt der Aufrufer false zurueck, bricht das Lesen ab
+     * @param onProgress erhält die bisher gelesenen Bytes, damit lange Scans
+     *   abbrechbar bleiben. Gibt der Aufrufer false zurück, bricht das Lesen ab
      *   und die Funktion liefert null.
      */
     fun sha256(file: File, onProgress: (Long) -> Boolean = { true }): String? =

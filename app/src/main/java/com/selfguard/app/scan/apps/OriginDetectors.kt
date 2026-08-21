@@ -5,12 +5,12 @@ import com.selfguard.app.core.FindingCode
 import com.selfguard.app.core.Severity
 
 /**
- * D01 -- signiert mit dem oeffentlichen Android-Debug-Schluessel.
+ * D01 -- signiert mit dem öffentlichen Android-Debug-Schlüssel.
  *
- * Dieser Schluessel liegt jedem Android-SDK bei und ist auf jedem Rechner der
+ * Dieser Schlüssel liegt jedem Android-SDK bei und ist auf jedem Rechner der
  * Welt derselbe. Eine so signierte App kann jeder durch eine eigene Fassung
- * ersetzen, weil die Signaturpruefung beim Update fuer alle aufgeht. Bei
- * selbst gebauten Apps ist das ueblich, bei allem anderen ein Warnzeichen.
+ * ersetzen, weil die Signaturprüfung beim Update für alle aufgeht. Bei
+ * selbst gebauten Apps ist das üblich, bei allem anderen ein Warnzeichen.
  */
 object DebugCertDetector : AppDetector {
 
@@ -36,9 +36,9 @@ object DebugCertDetector : AppDetector {
 /**
  * D02 -- Herkunft unbekannt.
  *
- * Fuer sich genommen harmlos: wer Apps aus einem eigenen Katalog installiert,
- * hat staendig solche Eintraege. Der Wert liegt in der Summe -- zusammen mit
- * versteckter Ausfuehrung oder Spionageberechtigungen ergibt sich ein Bild.
+ * Für sich genommen harmlos: wer Apps aus einem eigenen Katalog installiert,
+ * hat ständig solche Einträge. Der Wert liegt in der Summe -- zusammen mit
+ * versteckter Ausführung oder Spionageberechtigungen ergibt sich ein Bild.
  */
 object InstallerDetector : AppDetector {
 
@@ -62,12 +62,12 @@ object InstallerDetector : AppDetector {
 /**
  * D06 und D07 -- wie die App gebaut wurde.
  *
- * D06: targetSdk unter 23 heisst, die App laeuft noch im alten Modell, in dem
+ * D06: targetSdk unter 23 heißt, die App läuft noch im alten Modell, in dem
  * alle Berechtigungen bei der Installation pauschal erteilt werden. Damit
  * greift das Laufzeit-Berechtigungssystem gar nicht erst.
  *
- * D07: eine ausgelieferte App mit debuggable-Flag laesst jeden mit
- * ADB-Zugang einen Debugger anhaengen und ihre Daten auslesen.
+ * D07: eine ausgelieferte App mit debuggable-Flag lässt jeden mit
+ * ADB-Zugang einen Debugger anhängen und ihre Daten auslesen.
  */
 object BuildFlagsDetector : AppDetector {
 

@@ -7,20 +7,20 @@ object Prefs {
     private const val FILE = "selfguard_prefs"
     private fun p(ctx: Context) = ctx.getSharedPreferences(FILE, Context.MODE_PRIVATE)
 
-    /** Sprache der Oberflaeche: "de" oder "en". */
+    /** Sprache der Oberfläche: "de" oder "en". */
     fun language(ctx: Context): String = p(ctx).getString("lang", "de") ?: "de"
     fun setLanguage(ctx: Context, value: String) =
         p(ctx).edit().putString("lang", value).apply()
 
-    /** Zeitpunkt des letzten vollstaendigen Scans. */
+    /** Zeitpunkt des letzten vollständigen Scans. */
     fun lastScanAt(ctx: Context): Long = p(ctx).getLong("last_scan", 0L)
     fun setLastScanAt(ctx: Context, value: Long) =
         p(ctx).edit().putLong("last_scan", value).apply()
 
     /**
-     * Darf die App fuer die Dateipruefung Hashes an den eigenen
+     * Darf die App für die Dateiprüfung Hashes an den eigenen
      * Reputationsdienst schicken? Standard aus -- die App funktioniert
-     * vollstaendig offline, und das soll die bewusste Entscheidung des
+     * vollständig offline, und das soll die bewusste Entscheidung des
      * Nutzers bleiben.
      */
     fun reputationLookupEnabled(ctx: Context): Boolean =
@@ -39,7 +39,7 @@ object Prefs {
     fun setReputationEndpoint(ctx: Context, value: String) =
         p(ctx).edit().putString("reputation_url", value.trim()).apply()
 
-    /** Gewaehlte Sperrlisten-Stufe fuer den Netzfilter. */
+    /** Gewählte Sperrlisten-Stufe für den Netzfilter. */
     fun blocklistTier(ctx: Context): String = p(ctx).getString("tier", "STANDARD") ?: "STANDARD"
     fun setBlocklistTier(ctx: Context, value: String) =
         p(ctx).edit().putString("tier", value).apply()

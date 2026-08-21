@@ -10,10 +10,10 @@ import java.io.File
  *
  * HaGeZi gilt derzeit als der am besten gepflegte Satz freier DNS-Sperrlisten.
  * Die Listen werden **zur Laufzeit geladen und nicht mitgeliefert** -- sie
- * stehen unter GPL-3.0, und ein Mitliefern im APK wuerde die Lizenzfrage
- * aufwerfen, die beim blossen Abrufen gar nicht erst entsteht.
+ * stehen unter GPL-3.0, und ein Mitliefern im APK würde die Lizenzfrage
+ * aufwerfen, die beim bloßen Abrufen gar nicht erst entsteht.
  *
- * Die Stufen bilden den bekannten Zielkonflikt ab: mehr Eintraege bedeuten
+ * Die Stufen bilden den bekannten Zielkonflikt ab: mehr Einträge bedeuten
  * mehr geblockte Werbung, aber auch mehr kaputte Apps.
  */
 enum class BlocklistTier(
@@ -33,7 +33,7 @@ enum class BlocklistTier(
     ),
     STRENG(
         label = "Streng",
-        description = "Deutlich mehr Eintraege. Einzelne Apps koennen zicken.",
+        description = "Deutlich mehr Einträge. Einzelne Apps können zicken.",
         urls = listOf(HaGeZi.MULTI, HaGeZi.THREATS_MEDIUM),
     );
 
@@ -48,7 +48,7 @@ enum class BlocklistTier(
 }
 
 /**
- * Legt die aufbereitete Sperrliste als Binaerdatei ab.
+ * Legt die aufbereitete Sperrliste als Binärdatei ab.
  *
  * Warum nicht die heruntergeladenen Textdateien behalten: mehrere Megabyte
  * Text bei jedem Dienststart zu zerlegen kostet Sekunden. Die fertig
@@ -84,7 +84,7 @@ object BlocklistStore {
     }
 
     /**
-     * Schreibt erst vollstaendig in eine Nebendatei und benennt dann um --
+     * Schreibt erst vollständig in eine Nebendatei und benennt dann um --
      * ein Abbruch darf keine halbe Sperrliste hinterlassen, mit der still
      * weniger geblockt wird als angezeigt.
      */

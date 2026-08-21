@@ -6,11 +6,11 @@ import com.selfguard.app.core.FindingCode
 import com.selfguard.app.core.Severity
 
 /**
- * D03 -- laeuft, zeigt sich aber nicht.
+ * D03 -- läuft, zeigt sich aber nicht.
  *
- * Der zuverlaessigste billige Hinweis auf Ueberwachungssoftware: kein Symbol
- * im Startbildschirm, aber Hintergrunddienste und Empfaenger. Genau so
- * verhalten sich Handy-Ueberwachungs-Apps, die der Ueberwachte nicht
+ * Der zuverlässigste billige Hinweis auf Überwachungssoftware: kein Symbol
+ * im Startbildschirm, aber Hintergrunddienste und Empfänger. Genau so
+ * verhalten sich Handy-Überwachungs-Apps, die der Überwachte nicht
  * bemerken soll.
  *
  * System-Apps sind ausgenommen -- dort ist das der Normalfall.
@@ -21,12 +21,12 @@ object HiddenAppDetector : AppDetector {
         if (app.isSystemApp || app.hasLauncher) return emptyList()
         if (app.serviceCount == 0 && app.receiverCount == 0) return emptyList()
 
-        // Aus einem gepflegten Katalog kommt keine Ueberwachungssoftware --
-        // die wird von Hand aufgespielt. Ohne diese Einschraenkung meldete
-        // SelfGuard voellig gewoehnliche Begleit-Apps wie den Galaxy Watch5
+        // Aus einem gepflegten Katalog kommt keine Überwachungssoftware --
+        // die wird von Hand aufgespielt. Ohne diese Einschränkung meldete
+        // SelfGuard völlig gewöhnliche Begleit-Apps wie den Galaxy Watch5
         // Manager oder Carrier Services, die legitim kein Symbol haben.
-        // Genau solche Fehlalarme bringen einen Nutzer dazu, kuenftig auch
-        // die echten Meldungen zu ueberblaettern.
+        // Genau solche Fehlalarme bringen einen Nutzer dazu, künftig auch
+        // die echten Meldungen zu überblättern.
         if (app.installerPackage in ctx.trustedInstallers) return emptyList()
 
         return listOf(
@@ -37,7 +37,7 @@ object HiddenAppDetector : AppDetector {
                 subjectLabel = app.label,
                 evidence = listOf(
                     "kein Starter-Symbol",
-                    "${app.serviceCount} Dienste, ${app.receiverCount} Empfaenger",
+                    "${app.serviceCount} Dienste, ${app.receiverCount} Empfänger",
                 ),
             )
         )
@@ -45,28 +45,28 @@ object HiddenAppDetector : AppDetector {
 }
 
 /**
- * D04 -- Berechtigungsprofil einer Ueberwachungs-App.
+ * D04 -- Berechtigungsprofil einer Überwachungs-App.
  *
  * Einzelne Berechtigungen sagen wenig: eine Messenger-App darf Kontakte lesen,
- * eine Kamera-App die Kamera nutzen. Aussagekraeftig wird erst die *Breite* --
- * wie viele voneinander unabhaengige Ueberwachungsfaehigkeiten eine einzelne
+ * eine Kamera-App die Kamera nutzen. Aussagekräftig wird erst die *Breite* --
+ * wie viele voneinander unabhängige Überwachungsfähigkeiten eine einzelne
  * App zusammenzieht.
  *
  * System-Apps sind ausgenommen: Dienste wie die Google-Play-Dienste fordern
- * praktisch alles an und wuerden jede Schwelle sprengen.
+ * praktisch alles an und würden jede Schwelle sprengen.
  *
- * Gemeldet werden die Faehigkeiten als [Capability] und nicht als blosser
- * Text, damit die Oberflaeche zu jeder Zeile den Weg in die passende
- * Systemeinstellung anbieten kann. Welche Berechtigung zu welcher Faehigkeit
- * gehoert, steht dort -- dieser Detektor entscheidet nur noch ueber die
+ * Gemeldet werden die Fähigkeiten als [Capability] und nicht als bloßer
+ * Text, damit die Oberfläche zu jeder Zeile den Weg in die passende
+ * Systemeinstellung anbieten kann. Welche Berechtigung zu welcher Fähigkeit
+ * gehört, steht dort -- dieser Detektor entscheidet nur noch über die
  * Schwelle.
  */
 object SpyPermissionDetector : AppDetector {
 
-    /** Ab so vielen Faehigkeiten wird es erwaehnenswert. */
+    /** Ab so vielen Fähigkeiten wird es erwähnenswert. */
     private const val THRESHOLD_NOTABLE = 5
 
-    /** Ab so vielen ist das Profil kaum noch anders erklaerbar. */
+    /** Ab so vielen ist das Profil kaum noch anders erklärbar. */
     private const val THRESHOLD_SEVERE = 7
 
     /** Mit Bedienungshilfen-Zugriff reicht schon eine geringere Breite. */
@@ -80,7 +80,7 @@ object SpyPermissionDetector : AppDetector {
             .filter { capability -> capability.permissions.any { it in requested } }
             .toMutableList()
 
-        // Angemeldete Dienste sind eigenstaendige Faehigkeiten -- sie tauchen
+        // Angemeldete Dienste sind eigenständige Fähigkeiten -- sie tauchen
         // nicht in den Berechtigungen auf, wiegen aber schwerer als die meisten.
         if (app.declaresAccessibilityService) matched += Capability.ACCESSIBILITY
         if (app.declaresDeviceAdmin) matched += Capability.DEVICE_ADMIN
@@ -100,7 +100,7 @@ object SpyPermissionDetector : AppDetector {
         )
     }
 
-    /** null bedeutet: unauffaellig, kein Befund. */
+    /** null bedeutet: unauffällig, kein Befund. */
     private fun severityFor(count: Int, hasAccessibility: Boolean): Severity? = when {
         count >= THRESHOLD_SEVERE -> Severity.HIGH
         hasAccessibility && count >= THRESHOLD_WITH_ACCESSIBILITY -> Severity.HIGH
@@ -112,12 +112,12 @@ object SpyPermissionDetector : AppDetector {
 /**
  * D05 -- Abgleich gegen die Stalkerware-Indikatoren von Echap.
  *
- * Der einzige Detektor, der ein Urteil faellt statt zu schaetzen: hier liegt
+ * Der einzige Detektor, der ein Urteil fällt statt zu schätzen: hier liegt
  * ein belegter Treffer gegen einen gepflegten Datensatz vor. Deshalb als
  * einziger [Severity.CRITICAL].
  *
  * Der Zertifikatsabgleich ist der wichtigere Teil -- Paketnamen werden von
- * Stalkerware-Anbietern regelmaessig gewechselt, der Signaturschluessel
+ * Stalkerware-Anbietern regelmäßig gewechselt, der Signaturschlüssel
  * bleibt dagegen meist derselbe.
  */
 object StalkerwareDetector : AppDetector {
@@ -129,15 +129,15 @@ object StalkerwareDetector : AppDetector {
             evidence += "Paketname in der Stalkerware-Liste"
         }
         // Zertifikatstreffer nur bei Apps, die jemand selbst installiert hat.
-        // Eine System-App gehoert zum Geraet; steht ihr Fingerabdruck in der
+        // Eine System-App gehört zum Gerät; steht ihr Fingerabdruck in der
         // Liste, ist der Fingerabdruck das Problem und nicht die App. Ohne
-        // diese Regel meldete SelfGuard auf einem gewoehnlichen Samsung die
+        // diese Regel meldete SelfGuard auf einem gewöhnlichen Samsung die
         // Android-Komponente com.android.cts.ctsshim als Stalkerware.
         if (!app.isSystemApp) {
-            // Der Datensatz fuehrt SHA-1-Fingerabdruecke, nicht SHA-256.
+            // Der Datensatz führt SHA-1-Fingerabdrücke, nicht SHA-256.
             app.signingSha1
                 .map { it.lowercase() }
-                // Geteilte AOSP-Schluessel sagen ueber die App gar nichts aus.
+                // Geteilte AOSP-Schlüssel sagen über die App gar nichts aus.
                 .filterNot { PublicSigningKeys.isPublic(it) }
                 .filter { it in ctx.stalkerwareCertSha1 }
                 .forEach { evidence += "Signaturzertifikat bekannt: ${it.take(16)}..." }

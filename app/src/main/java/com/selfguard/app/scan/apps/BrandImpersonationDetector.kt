@@ -5,12 +5,12 @@ import com.selfguard.app.core.FindingCode
 import com.selfguard.app.core.Severity
 
 /**
- * D08 -- traegt einen bekannten Namen, gehoert aber nicht dazu.
+ * D08 -- trägt einen bekannten Namen, gehört aber nicht dazu.
  *
  * Der klassische Betrugsweg bei sideloadeten Apps: eine App nennt sich
- * "WhatsApp" oder "Sparkasse", sieht auch so aus, laeuft aber unter einem
+ * "WhatsApp" oder "Sparkasse", sieht auch so aus, läuft aber unter einem
  * fremden Paketnamen. Android verhindert das nicht -- Anzeigenamen sind frei
- * waehlbar, nur der Paketname ist eindeutig.
+ * wählbar, nur der Paketname ist eindeutig.
  */
 object BrandImpersonationDetector : AppDetector {
 
@@ -29,8 +29,8 @@ object BrandImpersonationDetector : AppDetector {
                 subjectLabel = app.label,
                 evidence = listOf(
                     "nennt sich \"${app.label}\"",
-                    "laeuft aber als ${app.packageName}",
-                    "echt waere: ${official.joinToString(" oder ")}",
+                    "läuft aber als ${app.packageName}",
+                    "echt wäre: ${official.joinToString(" oder ")}",
                 ),
             )
         )

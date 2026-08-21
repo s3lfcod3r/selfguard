@@ -60,8 +60,8 @@ import com.selfguard.app.ui.theme.Self
  * Der Hauptbildschirm.
  *
  * Gestaltungsregel: **ein Blick, eine Aussage, ein Knopf.** Wer die App
- * oeffnet, soll nach zwei Sekunden wissen, ob etwas zu tun ist -- ohne einen
- * Reiter zu waehlen und ohne einen Fachbegriff zu lesen. Alles Technische
+ * öffnet, soll nach zwei Sekunden wissen, ob etwas zu tun ist -- ohne einen
+ * Reiter zu wählen und ohne einen Fachbegriff zu lesen. Alles Technische
  * liegt hinter dem Zahnrad.
  */
 @Composable
@@ -156,16 +156,16 @@ private fun StatusArea(state: ScanState, lastScanText: String) {
     when (state) {
         is ScanState.Bereit -> StatusRing(
             band = null,
-            headline = "Noch nicht geprueft",
+            headline = "Noch nicht geprüft",
             sub = lastScanText,
         )
-        is ScanState.Laeuft -> RunningRing(state)
+        is ScanState.Läuft -> RunningRing(state)
         is ScanState.Fertig -> {
             val report = state.report
             StatusRing(
                 band = report.worstBand,
                 headline = headlineFor(report),
-                sub = "${report.appsScanned} Apps geprueft, gerade eben",
+                sub = "${report.appsScanned} Apps geprüft, gerade eben",
             )
         }
     }
@@ -179,7 +179,7 @@ private fun headlineFor(report: ScanReport): String = when (report.worstBand) {
 }
 
 /**
- * Der grosse farbige Ring. Er traegt die gesamte Aussage -- Farbe und Symbol
+ * Der große farbige Ring. Er trägt die gesamte Aussage -- Farbe und Symbol
  * sagen schon alles, bevor jemand ein Wort gelesen hat.
  */
 @Composable
@@ -223,9 +223,9 @@ private fun StatusRing(band: RiskBand?, headline: String, sub: String) {
     }
 }
 
-/** Waehrend des Durchlaufs: Ring als Fortschritt plus Klartext, was gerade laeuft. */
+/** Während des Durchlaufs: Ring als Fortschritt plus Klartext, was gerade läuft. */
 @Composable
-private fun RunningRing(state: ScanState.Laeuft) {
+private fun RunningRing(state: ScanState.Läuft) {
     val target = if (state.total > 0) state.done.toFloat() / state.total else 0f
     val progress by animateFloatAsState(targetValue = target, label = "fortschritt")
 
@@ -271,7 +271,7 @@ private fun RunningRing(state: ScanState.Laeuft) {
 
 @Composable
 private fun ScanButton(state: ScanState, onScan: () -> Unit) {
-    val running = state is ScanState.Laeuft
+    val running = state is ScanState.Läuft
     Button(
         onClick = onScan,
         enabled = !running,
@@ -286,9 +286,9 @@ private fun ScanButton(state: ScanState, onScan: () -> Unit) {
     ) {
         Text(
             when {
-                running -> "Pruefung laeuft ..."
-                state is ScanState.Fertig -> "Erneut pruefen"
-                else -> "Handy pruefen"
+                running -> "Prüfung läuft ..."
+                state is ScanState.Fertig -> "Erneut prüfen"
+                else -> "Handy prüfen"
             },
             fontSize = 16.sp,
             fontWeight = FontWeight.SemiBold,
@@ -301,9 +301,9 @@ private fun ScanButton(state: ScanState, onScan: () -> Unit) {
 /**
  * Ein Schalter, sonst nichts.
  *
- * Frueher musste man erst die Sperrlisten von Hand laden und dann einschalten.
- * Das war der haeufigste Weg, mit einem Filter dazustehen, der nichts blockt.
- * Jetzt besorgt der Schalter alles Noetige selbst.
+ * Früher musste man erst die Sperrlisten von Hand laden und dann einschalten.
+ * Das war der häufigste Weg, mit einem Filter dazustehen, der nichts blockt.
+ * Jetzt besorgt der Schalter alles Nötige selbst.
  */
 @Composable
 private fun AdBlockCard(
@@ -345,7 +345,7 @@ private fun AdBlockCard(
             Spacer(Modifier.height(10.dp))
             Text(
                 "Blockiert Werbung in Apps und im Browser, dazu Tracker und " +
-                    "bekannte Schadsoftware-Adressen. Laeuft auf dem Geraet; es " +
+                    "bekannte Schadsoftware-Adressen. Läuft auf dem Gerät; es " +
                     "wird nichts an Dritte weitergeleitet.",
                 fontSize = 12.sp,
                 color = Self.textMuted,
@@ -354,7 +354,7 @@ private fun AdBlockCard(
             if (foreignVpnActive && !running) {
                 Spacer(Modifier.height(10.dp))
                 Text(
-                    "Hinweis: Es laeuft bereits ein anderes VPN. Android erlaubt " +
+                    "Hinweis: Es läuft bereits ein anderes VPN. Android erlaubt " +
                         "nur eines gleichzeitig -- beim Einschalten wird die " +
                         "bestehende Verbindung getrennt.",
                     fontSize = 12.sp,
@@ -382,7 +382,7 @@ private fun FileScanRow(onOpen: () -> Unit) {
             Spacer(Modifier.width(12.dp))
             Column(Modifier.weight(1f)) {
                 Text(
-                    "Downloads pruefen",
+                    "Downloads prüfen",
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Medium,
                     color = Self.text,
@@ -435,9 +435,9 @@ private fun Results(
 }
 
 /**
- * Zeigt, was tatsaechlich geprueft wurde.
+ * Zeigt, was tatsächlich geprüft wurde.
  *
- * Ein Scanner, der nur "nichts gefunden" sagt, laesst offen, ob er ueberhaupt
+ * Ein Scanner, der nur "nichts gefunden" sagt, lässt offen, ob er überhaupt
  * gesucht hat. Diese Liste macht die Abdeckung sichtbar -- und macht zugleich
  * ehrlich, wo die Grenze liegt.
  */
@@ -450,7 +450,7 @@ private fun Coverage() {
     ) {
         Column(Modifier.padding(16.dp)) {
             Text(
-                "Geprueft wurde",
+                "Geprüft wurde",
                 fontSize = 13.sp,
                 fontWeight = FontWeight.SemiBold,
                 color = Self.textMuted,
@@ -474,8 +474,8 @@ private fun Coverage() {
             Spacer(Modifier.height(6.dp))
             Text(
                 "Nicht erfasst: Spionagesoftware mit Systemrechten, wie sie " +
-                    "Behoerden einsetzen. Die versteckt sich vor jeder App und " +
-                    "laesst sich nur mit einer Auswertung am Rechner aufspueren.",
+                    "Behörden einsetzen. Die versteckt sich vor jeder App und " +
+                    "lässt sich nur mit einer Auswertung am Rechner aufspüren.",
                 fontSize = 11.sp,
                 color = Self.textMuted,
             )
@@ -483,7 +483,7 @@ private fun Coverage() {
     }
 }
 
-/** Einstieg in die vollstaendige App-Liste zum Ansehen und Entfernen. */
+/** Einstieg in die vollständige App-Liste zum Ansehen und Entfernen. */
 @Composable
 private fun AllAppsRow(onOpen: () -> Unit) {
     Card(

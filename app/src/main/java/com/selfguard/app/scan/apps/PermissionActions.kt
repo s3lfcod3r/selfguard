@@ -12,11 +12,11 @@ import com.selfguard.app.core.SettingsTarget
 /**
  * Der Weg von einem Befund zur passenden Systemeinstellung.
  *
- * **Warum nicht einfach abschalten?** Android laesst keine App die
+ * **Warum nicht einfach abschalten?** Android lässt keine App die
  * Berechtigungen einer anderen entziehen. `REVOKE_RUNTIME_PERMISSIONS` ist
- * der Systemsignatur vorbehalten, und daran laesst sich nichts drehen -- auch
+ * der Systemsignatur vorbehalten, und daran lässt sich nichts drehen -- auch
  * nicht mit mehr Berechtigungen im Manifest. Das ist kein Mangel, sondern
- * Absicht: koennte eine beliebige App fremde Rechte aendern, waere der erste
+ * Absicht: könnte eine beliebige App fremde Rechte ändern, wäre der erste
  * Schritt jeder Schadsoftware, dem Schutzprogramm die seinen zu nehmen.
  *
  * Was bleibt, ist der kurze Weg: den Nutzer genau auf die Seite bringen, auf
@@ -25,28 +25,28 @@ import com.selfguard.app.core.SettingsTarget
  * einem Antippen ist der Unterschied zwischen erledigt und irgendwann.
  *
  * Jedes Ziel hat eine Ersatzkette. Hersteller bauen ihre Einstellungen um,
- * benennen Seiten anders oder lassen welche weg; ein Absturz waere die
+ * benennen Seiten anders oder lassen welche weg; ein Absturz wäre die
  * schlechteste Antwort darauf. Am Ende jeder Kette steht die App-Info, die es
- * auf jedem Geraet gibt.
+ * auf jedem Gerät gibt.
  */
 object PermissionActions {
 
     /**
-     * Nicht oeffentlich, aber seit Android 6 auf praktisch jedem Geraet
-     * vorhanden: die Berechtigungsseite einer einzelnen App. Ueber die
+     * Nicht öffentlich, aber seit Android 6 auf praktisch jedem Gerät
+     * vorhanden: die Berechtigungsseite einer einzelnen App. Über die
      * offizielle API ist nur die App-Info erreichbar, von der aus der Nutzer
-     * noch einmal tippen muesste. Wir versuchen den direkten Weg und fangen
+     * noch einmal tippen müsste. Wir versuchen den direkten Weg und fangen
      * den Fall ab, dass es ihn nicht gibt.
      */
     private const val ACTION_MANAGE_APP_PERMISSIONS = "android.intent.action.MANAGE_APP_PERMISSIONS"
     private const val EXTRA_PACKAGE_NAME = "android.intent.extra.PACKAGE_NAME"
 
-    /** Ebenfalls nicht oeffentlich, aber verbreitet: die Geraeteverwalter-Liste. */
+    /** Ebenfalls nicht öffentlich, aber verbreitet: die Geräteverwalter-Liste. */
     private const val ACTION_DEVICE_ADMIN_SETTINGS = "android.app.action.DEVICE_ADMIN_SETTINGS"
 
     /**
-     * Liefert die Absicht, die den Nutzer der Faehigkeit am naechsten bringt.
-     * Gibt immer etwas zurueck -- im Zweifel die App-Info.
+     * Liefert die Absicht, die den Nutzer der Fähigkeit am nächsten bringt.
+     * Gibt immer etwas zurück -- im Zweifel die App-Info.
      */
     fun intentFor(context: Context, capability: Capability, packageName: String): Intent =
         firstResolvable(context, candidates(capability.target, packageName))

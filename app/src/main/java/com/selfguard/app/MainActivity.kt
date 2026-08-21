@@ -52,7 +52,7 @@ class MainActivity : ComponentActivity() {
     private val reputationEnabled = mutableStateOf(false)
     private val reputationEndpoint = mutableStateOf("")
 
-    /** Wird gesetzt, solange der Schalter noch Sperrlisten nachlaedt. */
+    /** Wird gesetzt, solange der Schalter noch Sperrlisten nachlädt. */
     private val filterBusy = mutableStateOf(false)
 
     private val appRows = mutableStateOf(emptyList<AppRow>())
@@ -63,9 +63,9 @@ class MainActivity : ComponentActivity() {
     /**
      * Noch abzuarbeitende Deinstallationen.
      *
-     * Android zeigt fuer jede App einen eigenen Bestaetigungsdialog, und
+     * Android zeigt für jede App einen eigenen Bestätigungsdialog, und
      * es kann immer nur einer offen sein. Deshalb wird die Auswahl
-     * abgearbeitet wie eine Schlange: naechster Dialog erst, wenn der
+     * abgearbeitet wie eine Schlange: nächster Dialog erst, wenn der
      * vorige geschlossen ist.
      */
     private val pendingUninstalls = ArrayDeque<String>()
@@ -81,8 +81,8 @@ class MainActivity : ComponentActivity() {
     }
 
     /**
-     * Ergebnis eines Deinstall-Dialogs. Egal ob bestaetigt oder abgebrochen:
-     * danach ist der naechste Eintrag der Schlange dran.
+     * Ergebnis eines Deinstall-Dialogs. Egal ob bestätigt oder abgebrochen:
+     * danach ist der nächste Eintrag der Schlange dran.
      */
     private val uninstallLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -90,7 +90,7 @@ class MainActivity : ComponentActivity() {
 
     private val notificationPermission = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
-    ) { /* Der Filter laeuft auch ohne sichtbare Benachrichtigung weiter. */ }
+    ) { /* Der Filter läuft auch ohne sichtbare Benachrichtigung weiter. */ }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -154,10 +154,10 @@ class MainActivity : ComponentActivity() {
 
     private fun lastScanText(): String {
         val last = Prefs.lastScanAt(this)
-        if (last == 0L) return "Tippen Sie auf Handy pruefen"
+        if (last == 0L) return "Tippen Sie auf Handy prüfen"
         val formatted = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT)
             .format(Date(last))
-        return "Zuletzt geprueft: $formatted"
+        return "Zuletzt geprüft: $formatted"
     }
 
     private fun startScan() {
@@ -166,11 +166,11 @@ class MainActivity : ComponentActivity() {
     }
 
     /**
-     * Ein Schalter, der sich um alles kuemmert.
+     * Ein Schalter, der sich um alles kümmert.
      *
      * Vorher musste man erst in den Einstellungen die Sperrlisten laden und
      * dann hier einschalten -- wer das nicht wusste, hatte einen Filter, der
-     * nichts blockte und das auch nicht sagte. Jetzt laedt der Schalter beim
+     * nichts blockte und das auch nicht sagte. Jetzt lädt der Schalter beim
      * ersten Einschalten selbst nach und startet danach.
      */
     private fun toggleFilter(enabled: Boolean) {
@@ -204,9 +204,9 @@ class MainActivity : ComponentActivity() {
     }
 
     private suspend fun updateBlocklists() {
-        updateState.value = ListUpdateState.Laeuft("Sperrlisten")
+        updateState.value = ListUpdateState.Läuft("Sperrlisten")
         val result = BlocklistUpdater.refresh(this, tier.value) { source ->
-            updateState.value = ListUpdateState.Laeuft(source)
+            updateState.value = ListUpdateState.Läuft(source)
         }
         result.fold(
             onSuccess = {
@@ -232,14 +232,14 @@ class MainActivity : ComponentActivity() {
 
     private fun startFileScan(treeUri: Uri) {
         lifecycleScope.launch {
-            fileScanState.value = FileScanState.Laeuft(0, "")
+            fileScanState.value = FileScanState.Läuft(0, "")
             val result = FileScanner.scan(
                 context = this@MainActivity,
                 treeUri = treeUri,
                 useReputation = reputationEnabled.value,
                 onProgress = { progress ->
                     fileScanState.value =
-                        FileScanState.Laeuft(progress.scanned, progress.currentName)
+                        FileScanState.Läuft(progress.scanned, progress.currentName)
                 },
             )
             fileScanState.value = FileScanState.Fertig(result)
@@ -256,11 +256,11 @@ class MainActivity : ComponentActivity() {
     // -- App-Liste und Deinstallation ------------------------------------
 
     /**
-     * Liest das App-Verzeichnis fuer die Listenansicht.
+     * Liest das App-Verzeichnis für die Listenansicht.
      *
      * Wenn gerade ein Scan gelaufen ist, wird dessen Ergebnis
      * wiederverwendet -- der PackageManager ist langsam, und zweimal
-     * dasselbe zu lesen waere nur Wartezeit.
+     * dasselbe zu lesen wäre nur Wartezeit.
      */
     private fun loadApps() {
         val cached = ScanEngine.lastInventory
@@ -289,14 +289,14 @@ class MainActivity : ComponentActivity() {
         knownPackages.value = apps.map { it.packageName }.toSet()
     }
 
-    /** Startet die Abarbeitung der ausgewaehlten Deinstallationen. */
+    /** Startet die Abarbeitung der ausgewählten Deinstallationen. */
     private fun startUninstall(packages: List<String>) {
         pendingUninstalls.addAll(packages)
         proceedUninstallQueue()
     }
 
     /**
-     * Oeffnet den naechsten Dialog. Ist die Schlange leer, wird die Liste
+     * Öffnet den nächsten Dialog. Ist die Schlange leer, wird die Liste
      * neu gelesen -- entfernte Apps sollen sofort verschwinden.
      */
     private fun proceedUninstallQueue() {
@@ -306,7 +306,7 @@ class MainActivity : ComponentActivity() {
             return
         }
 
-        // Je nach App ein anderes Ziel: Loeschdialog bei selbst
+        // Je nach App ein anderes Ziel: Löschdialog bei selbst
         // installierten, Systemseite zum Deaktivieren bei
         // Systembestandteilen. Ist die App nicht mehr auffindbar --
         // etwa weil sie gerade entfernt wurde -- geht es einfach weiter.
@@ -337,11 +337,11 @@ class MainActivity : ComponentActivity() {
     }
 
     /**
-     * Bringt den Nutzer auf die Seite, auf der sich die angetippte Faehigkeit
-     * abstellen laesst.
+     * Bringt den Nutzer auf die Seite, auf der sich die angetippte Fähigkeit
+     * abstellen lässt.
      *
      * Abgestellt wird dort von Hand. SelfGuard kann fremde Berechtigungen
-     * nicht selbst entziehen -- Android laesst das keiner App zu, und das aus
+     * nicht selbst entziehen -- Android lässt das keiner App zu, und das aus
      * gutem Grund (siehe [PermissionActions]).
      */
     private fun openCapability(packageName: String, capability: Capability) {
@@ -354,7 +354,7 @@ class MainActivity : ComponentActivity() {
         val iocs = IocStore.load(this)
         iocSummary.value = listOf(
             "${iocs.packages.size} Pakete, ${iocs.certSha1.size} Zertifikate, " +
-                "${iocs.sampleSha256.size} Datei-Pruefsummen, ${iocs.domains.size} Domains"
+                "${iocs.sampleSha256.size} Datei-Prüfsummen, ${iocs.domains.size} Domains"
         )
     }
 }

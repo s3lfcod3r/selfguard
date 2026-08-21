@@ -12,11 +12,11 @@ data class BlocklistUpdateResult(
 )
 
 /**
- * Laedt die gewaehlten Sperrlisten und baut daraus die Nachschlagedatei.
+ * Lädt die gewählten Sperrlisten und baut daraus die Nachschlagedatei.
  *
  * Die Domains werden beim Lesen sofort zu Streuwerten verrechnet und nie
- * vollstaendig als Zeichenketten gehalten -- bei der strengen Stufe waeren das
- * sonst zweistellige Megabyte allein fuer den Aufbau.
+ * vollständig als Zeichenketten gehalten -- bei der strengen Stufe wären das
+ * sonst zweistellige Megabyte allein für den Aufbau.
  */
 object BlocklistUpdater {
 
@@ -43,7 +43,7 @@ object BlocklistUpdater {
             }
 
             // Die C2-Adressen aus dem Stalkerware-Datensatz kommen immer dazu.
-            // Sie sind der Grund, warum der Filter auch gegen Ueberwachung hilft
+            // Sie sind der Grund, warum der Filter auch gegen Überwachung hilft
             // und nicht nur gegen Werbung.
             val stalkerwareDomains = IocStore.load(context).domains
             stalkerwareDomains.forEach { hashes += Blocklist.hashOf(it) }
@@ -60,7 +60,7 @@ object BlocklistUpdater {
         }
     }
 
-    /** Grob geschaetzte Endgroesse, damit die Menge nicht staendig waechst. */
+    /** Grob geschätzte Endgröße, damit die Menge nicht ständig wächst. */
     private const val INITIAL_CAPACITY = 300_000
 
     /**
@@ -74,7 +74,7 @@ object BlocklistUpdater {
 
         val domain = trimmed.removePrefix("*.").lowercase().trimEnd('.')
         if (!domain.contains('.')) return null
-        // Zeilen im hosts-Format ("0.0.0.0 domain.tld") kaemen mit Leerzeichen.
+        // Zeilen im hosts-Format ("0.0.0.0 domain.tld") kämen mit Leerzeichen.
         if (domain.any { it.isWhitespace() }) return null
         return domain
     }

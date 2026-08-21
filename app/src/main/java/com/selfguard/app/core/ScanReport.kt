@@ -2,8 +2,8 @@ package com.selfguard.app.core
 
 /**
  * Alle Befunde zu einem Gegenstand -- einer App, einem Systembereich, einer
- * Datei. Die Buendelung ist wichtig fuer die Bewertung: erst in der Summe
- * ergibt sich aus mehreren kleinen Auffaelligkeiten ein Bild.
+ * Datei. Die Bündelung ist wichtig für die Bewertung: erst in der Summe
+ * ergibt sich aus mehreren kleinen Auffälligkeiten ein Bild.
  */
 data class SubjectReport(
     val subject: String,
@@ -14,7 +14,7 @@ data class SubjectReport(
     val band: RiskBand get() = RiskScore.band(findings)
 }
 
-/** Ergebnis eines vollstaendigen Durchlaufs. */
+/** Ergebnis eines vollständigen Durchlaufs. */
 data class ScanReport(
     val subjects: List<SubjectReport>,
     val appsScanned: Int,

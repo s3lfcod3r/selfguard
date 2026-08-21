@@ -7,14 +7,14 @@ import androidx.compose.ui.graphics.Color
 import com.selfguard.app.core.RiskBand
 
 /**
- * Die Self-Markenfarben, uebernommen aus `brand-kit/tokens.css`.
+ * Die Self-Markenfarben, übernommen aus `brand-kit/tokens.css`.
  *
- * Werte nicht abwandeln: das Brandkit ist die eine Quelle der Wahrheit fuer
- * alle Self-Projekte. Aendert sich dort etwas, wird es hier nachgezogen --
+ * Werte nicht abwandeln: das Brandkit ist die eine Quelle der Wahrheit für
+ * alle Self-Projekte. Ändert sich dort etwas, wird es hier nachgezogen --
  * nicht umgekehrt.
  */
 object Self {
-    // Flaechen, dunkel von tief nach hoch
+    // Flächen, dunkel von tief nach hoch
     val bg0 = Color(0xFF080C11)   // Seite
     val bg1 = Color(0xFF0D1117)   // Sektion
     val bg2 = Color(0xFF161B22)   // Karte
@@ -60,7 +60,7 @@ private val SelfGuardColors = darkColorScheme(
 /**
  * Farbsprache der Bewertungsstufen.
  *
- * Bewusst nicht durchgaengig rot: Wenn jede Auffaelligkeit gleich alarmiert,
+ * Bewusst nicht durchgängig rot: Wenn jede Auffälligkeit gleich alarmiert,
  * verliert der Alarm seine Bedeutung.
  */
 object BandColors {

@@ -44,7 +44,7 @@ import com.selfguard.app.ui.theme.Self
  * Alles Technische an einer Stelle.
  *
  * Bewusst hinter dem Zahnrad versteckt: Wer die App nur benutzen will, soll
- * nie hierher muessen. Wer es genau wissen will, findet hier jede Stellschraube
+ * nie hierher müssen. Wer es genau wissen will, findet hier jede Stellschraube
  * und jede Datenquelle.
  */
 @Composable
@@ -73,7 +73,7 @@ fun SettingsScreen(
         Row(verticalAlignment = Alignment.CenterVertically) {
             Icon(
                 Icons.AutoMirrored.Rounded.ArrowBack,
-                contentDescription = "Zurueck",
+                contentDescription = "Zurück",
                 tint = Self.text,
                 modifier = Modifier
                     .clip(CircleShape)
@@ -86,7 +86,7 @@ fun SettingsScreen(
         }
 
         Spacer(Modifier.height(24.dp))
-        SectionTitle("Sperrliste fuer den Werbeblocker")
+        SectionTitle("Sperrliste für den Werbeblocker")
         Spacer(Modifier.height(8.dp))
         BlocklistTier.entries.forEach { entry ->
             TierRow(entry, entry == tier) { onTierChange(entry) }
@@ -99,9 +99,9 @@ fun SettingsScreen(
         OutlinedButton(
             onClick = onUpdateLists,
             modifier = Modifier.fillMaxWidth(),
-            enabled = updateState !is ListUpdateState.Laeuft,
+            enabled = updateState !is ListUpdateState.Läuft,
         ) {
-            Text(if (updateState is ListUpdateState.Laeuft) "Wird geladen ..." else "Jetzt aktualisieren")
+            Text(if (updateState is ListUpdateState.Läuft) "Wird geladen ..." else "Jetzt aktualisieren")
         }
 
         Spacer(Modifier.height(28.dp))
@@ -132,7 +132,7 @@ private fun listStatusText(blockedDomains: Int, state: ListUpdateState): String 
     is ListUpdateState.Ruht ->
         if (blockedDomains == 0) "Noch keine Liste geladen."
         else "$blockedDomains Domains geladen."
-    is ListUpdateState.Laeuft -> "Laedt ${state.source} ..."
+    is ListUpdateState.Läuft -> "Lädt ${state.source} ..."
     is ListUpdateState.Fertig -> "${state.domains} Domains aus ${state.sources.size} Quellen."
     is ListUpdateState.Fehler -> "Aktualisierung fehlgeschlagen: ${state.message}"
 }
@@ -193,9 +193,9 @@ private fun ReputationSection(
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {
                 Column(Modifier.weight(1f)) {
-                    Text("Zusaetzlich online nachfragen", fontSize = 15.sp, color = Self.text)
+                    Text("Zusätzlich online nachfragen", fontSize = 15.sp, color = Self.text)
                     Text(
-                        "Unbekannte Dateien beim eigenen Dienst pruefen",
+                        "Unbekannte Dateien beim eigenen Dienst prüfen",
                         fontSize = 12.sp,
                         color = Self.textMuted,
                     )
@@ -218,8 +218,8 @@ private fun ReputationSection(
 
             if (endpoint.isNotBlank() && !endpoint.startsWith("https://", ignoreCase = true)) {
                 Text(
-                    "Wird nicht verwendet: nur https ist erlaubt. Unverschluesselt " +
-                        "koennte jeder im Netz mitlesen, welche Dateien Sie pruefen.",
+                    "Wird nicht verwendet: nur https ist erlaubt. Unverschlüsselt " +
+                        "könnte jeder im Netz mitlesen, welche Dateien Sie prüfen.",
                     fontSize = 11.sp,
                     color = Self.red,
                 )
@@ -227,9 +227,9 @@ private fun ReputationSection(
             }
 
             Text(
-                "Ab Werk aus. Jede Abfrage verraet dem Dienst, dass eine bestimmte " +
-                    "Datei auf diesem Geraet liegt. Ohne Adresse arbeitet die App " +
-                    "vollstaendig ohne Internet.",
+                "Ab Werk aus. Jede Abfrage verrät dem Dienst, dass eine bestimmte " +
+                    "Datei auf diesem Gerät liegt. Ohne Adresse arbeitet die App " +
+                    "vollständig ohne Internet.",
                 fontSize = 11.sp,
                 color = Self.textMuted,
             )
@@ -239,7 +239,7 @@ private fun ReputationSection(
 
 /**
  * Herkunft der Daten -- zugleich die von der CC-BY-Lizenz geforderte
- * Namensnennung fuer den Stalkerware-Datensatz.
+ * Namensnennung für den Stalkerware-Datensatz.
  */
 @Composable
 private fun Sources(iocSummary: List<String>, onUpdateIocs: () -> Unit) {

@@ -8,18 +8,18 @@ import com.selfguard.app.core.Severity
 import java.io.File
 
 /**
- * Prueft die installierten APK-Dateien selbst gegen bekannte Schadsoftware.
+ * Prüft die installierten APK-Dateien selbst gegen bekannte Schadsoftware.
  *
- * Das ist der Teil, der einem Virenscanner am naechsten kommt: Es wird nicht
- * geraten und nicht heuristisch bewertet, sondern die Datei auf dem Geraet
- * gehasht und die Pruefsumme gegen eine Schadsoftware-Datenbank gehalten.
+ * Das ist der Teil, der einem Virenscanner am nächsten kommt: Es wird nicht
+ * geraten und nicht heuristisch bewertet, sondern die Datei auf dem Gerät
+ * gehasht und die Prüfsumme gegen eine Schadsoftware-Datenbank gehalten.
  * Ein Treffer ist eindeutig.
  *
  * **Der Zwischenspeicher ist hier nicht Beiwerk, sondern Voraussetzung.**
- * Ein Telefon traegt schnell 150 Apps mit zusammen mehreren Gigabyte. Diese
- * bei jedem Durchlauf neu zu lesen dauert Minuten und kostet spuerbar Akku --
- * die Pruefung wuerde einfach nicht mehr benutzt. Eine APK aendert sich nur
- * beim Update, also wird das Ergebnis anhand von Aenderungszeit und Groesse
+ * Ein Telefon trägt schnell 150 Apps mit zusammen mehreren Gigabyte. Diese
+ * bei jedem Durchlauf neu zu lesen dauert Minuten und kostet spürbar Akku --
+ * die Prüfung würde einfach nicht mehr benutzt. Eine APK ändert sich nur
+ * beim Update, also wird das Ergebnis anhand von Änderungszeit und Größe
  * behalten. Der erste Durchlauf ist langsam, jeder weitere dauert Sekunden.
  */
 object ApkHashScanner {
@@ -37,9 +37,9 @@ object ApkHashScanner {
 
     /**
      * @param onProgress meldet (fertig, gesamt, aktueller Name)
-     * @param isActive wird vor jeder Datei geprueft; false bricht ab
+     * @param isActive wird vor jeder Datei geprüft; false bricht ab
      * @param onlineLookup optionale Nachfrage beim Reputationsdienst, gibt die
-     *   Quelle des Treffers zurueck oder null
+     *   Quelle des Treffers zurück oder null
      */
     suspend fun scan(
         context: Context,

@@ -1,20 +1,20 @@
 package com.selfguard.app.net
 
 /**
- * Der Nachschlagespeicher fuer gesperrte Domains.
+ * Der Nachschlagespeicher für gesperrte Domains.
  *
- * Auslegung: Auf einem Telefon liegen schnell mehrere hunderttausend Eintraege
+ * Auslegung: Auf einem Telefon liegen schnell mehrere hunderttausend Einträge
  * an, und jede DNS-Anfrage muss in Mikrosekunden beantwortet sein. Ein
- * `Set<String>` waere dafuer zu schwer -- allein die Zeichenketten kosten das
+ * `Set<String>` wäre dafür zu schwer -- allein die Zeichenketten kosten das
  * Vielfache.
  *
  * Stattdessen: 64-Bit-Streuwerte in einem sortierten `LongArray`, gesucht per
- * binaerer Suche. Acht Byte je Domain, kein Objektaufwand, kein Sammeldruck
+ * binärer Suche. Acht Byte je Domain, kein Objektaufwand, kein Sammeldruck
  * auf den Speicherbereiniger im Anfragepfad.
  *
- * Zur Kollisionsgefahr: bei 500.000 Eintraegen und 64 Bit liegt die
+ * Zur Kollisionsgefahr: bei 500.000 Einträgen und 64 Bit liegt die
  * Wahrscheinlichkeit einer Kollision im Bereich von 10 hoch -8. Eine
- * Kollision wuerde eine harmlose Domain sperren -- vertretbar gegenueber dem
+ * Kollision würde eine harmlose Domain sperren -- vertretbar gegenüber dem
  * Speichergewinn, und der Nutzer kann jede Domain freigeben.
  */
 class Blocklist private constructor(
@@ -26,10 +26,10 @@ class Blocklist private constructor(
     /**
      * Sperrt die Liste diese Domain?
      *
-     * Geprueft wird die Domain selbst und jede uebergeordnete Ebene: steht
+     * Geprüft wird die Domain selbst und jede übergeordnete Ebene: steht
      * `doubleclick.net` auf der Liste, ist auch `ad.doubleclick.net` gesperrt.
-     * Genau so sind die Listen gemeint -- ohne diese Regel muesste jede
-     * Unterdomain einzeln gefuehrt werden.
+     * Genau so sind die Listen gemeint -- ohne diese Regel müsste jede
+     * Unterdomain einzeln geführt werden.
      */
     fun blocks(domain: String): Boolean {
         if (hashes.isEmpty()) return false
@@ -38,8 +38,8 @@ class Blocklist private constructor(
         while (true) {
             if (contains(candidate)) return true
             val dot = candidate.indexOf('.')
-            // Eine einzelne Bezeichnung ("net") wird nicht mehr geprueft --
-            // das waere eine ganze Endung und nie gewollt.
+            // Eine einzelne Bezeichnung ("net") wird nicht mehr geprüft --
+            // das wäre eine ganze Endung und nie gewollt.
             if (dot < 0) return false
             candidate = candidate.substring(dot + 1)
             if (!candidate.contains('.')) return false

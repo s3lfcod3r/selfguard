@@ -14,12 +14,12 @@ import org.junit.Assert.assertTrue
 import org.junit.Test
 
 /**
- * Prueft den Netzfilter auf der Ebene, auf der Fehler sonst still bleiben:
+ * Prüft den Netzfilter auf der Ebene, auf der Fehler sonst still bleiben:
  * einzelne Bytes in IP- und DNS-Paketen.
  *
- * Genau hier waeren Fehler am teuersten -- ein falsch gesetztes Laengenfeld
- * bricht nicht auffaellig, sondern laesst einzelne Namensaufloesungen
- * gelegentlich haengen.
+ * Genau hier wären Fehler am teuersten -- ein falsch gesetztes Längenfeld
+ * bricht nicht auffällig, sondern lässt einzelne Namensauflösungen
+ * gelegentlich hängen.
  */
 class NetworkFilterTest {
 
@@ -41,20 +41,20 @@ class NetworkFilterTest {
     }
 
     @Test
-    fun `laesst nicht eingetragene Domain durch`() {
+    fun `lässt nicht eingetragene Domain durch`() {
         assertFalse(blocklistOf("werbenetz.example").blocks("meine-bank.de"))
     }
 
     @Test
     fun `sperrt niemals eine ganze Endung`() {
-        // Waere ".net" jemals ein Treffer, waere das halbe Netz unerreichbar.
+        // Wäre ".net" jemals ein Treffer, wäre das halbe Netz unerreichbar.
         val list = blocklistOf("net", "de")
         assertFalse(list.blocks("meine-bank.de"))
         assertFalse(list.blocks("beispiel.net"))
     }
 
     @Test
-    fun `ignoriert Gross-Kleinschreibung und Punkt am Ende`() {
+    fun `ignoriert Groß-Kleinschreibung und Punkt am Ende`() {
         val list = blocklistOf("werbenetz.example")
         assertTrue(list.blocks("WerbeNetz.Example"))
         assertTrue(list.blocks("werbenetz.example."))
@@ -66,7 +66,7 @@ class NetworkFilterTest {
     }
 
     @Test
-    fun `entfernt doppelte Eintraege`() {
+    fun `entfernt doppelte Einträge`() {
         val list = Blocklist.of(
             listOf("a.example", "a.example", "b.example").map { Blocklist.hashOf(it) }
         )
@@ -76,31 +76,31 @@ class NetworkFilterTest {
     // -- Aufbereitung der Listenzeilen ----------------------------------
 
     @Test
-    fun `liest gewoehnliche Listenzeile`() {
+    fun `liest gewöhnliche Listenzeile`() {
         assertEquals("werbenetz.example", BlocklistUpdater.clean("werbenetz.example"))
     }
 
     @Test
-    fun `entfernt Wildcard-Praefix`() {
+    fun `entfernt Wildcard-Präfix`() {
         assertEquals("werbenetz.example", BlocklistUpdater.clean("*.werbenetz.example"))
     }
 
     @Test
-    fun `ueberspringt Kommentare und Leerzeilen`() {
+    fun `überspringt Kommentare und Leerzeilen`() {
         assertNull(BlocklistUpdater.clean("# Title: HaGeZi"))
         assertNull(BlocklistUpdater.clean("   "))
         assertNull(BlocklistUpdater.clean("!AdBlock-Kommentar"))
     }
 
     @Test
-    fun `ueberspringt Zeilen im hosts-Format`() {
-        // Die Wildcard-Listen fuehren nur nackte Domains; eine hosts-Zeile
-        // waere ein Hinweis auf die falsche Quelldatei.
+    fun `überspringt Zeilen im hosts-Format`() {
+        // Die Wildcard-Listen führen nur nackte Domains; eine hosts-Zeile
+        // wäre ein Hinweis auf die falsche Quelldatei.
         assertNull(BlocklistUpdater.clean("0.0.0.0 werbenetz.example"))
     }
 
     @Test
-    fun `ueberspringt Eintrag ohne Punkt`() {
+    fun `überspringt Eintrag ohne Punkt`() {
         assertNull(BlocklistUpdater.clean("localhost"))
     }
 
@@ -110,7 +110,7 @@ class NetworkFilterTest {
     private fun dnsQuery(vararg labels: String): ByteArray {
         val header = byteArrayOf(
             0x12, 0x34,             // Kennung
-            0x01, 0x00,             // Standardanfrage, Rekursion erwuenscht
+            0x01, 0x00,             // Standardanfrage, Rekursion erwünscht
             0x00, 0x01,             // eine Frage
             0x00, 0x00,             // keine Antworten
             0x00, 0x00,
@@ -151,7 +151,7 @@ class NetworkFilterTest {
     }
 
     @Test
-    fun `Absage behaelt Kennung und Frage`() {
+    fun `Absage behält Kennung und Frage`() {
         val query = dnsQuery("werbenetz", "example")
         val response = DnsMessage.nxDomainResponse(query)
 
@@ -164,21 +164,21 @@ class NetworkFilterTest {
     }
 
     @Test
-    fun `Absage setzt Antwortbit und Rueckmeldecode drei`() {
+    fun `Absage setzt Antwortbit und Rückmeldecode drei`() {
         val response = DnsMessage.nxDomainResponse(dnsQuery("werbenetz", "example"))
         val flagsHigh = response[2].toInt() and 0xFF
         val flagsLow = response[3].toInt() and 0xFF
 
         assertEquals(0x80, flagsHigh and 0x80)          // Antwort
         assertEquals(3, flagsLow and 0x0F)              // NXDOMAIN
-        assertEquals(0x01, flagsHigh and 0x01)          // Rekursion war erwuenscht
+        assertEquals(0x01, flagsHigh and 0x01)          // Rekursion war erwünscht
     }
 
     // -- Zuordnung von Antwort zu Anfrage -------------------------------
 
     @Test
     fun `liest die Vorgangskennung aus dem Kopf`() {
-        // Die Testanfrage traegt 0x1234.
+        // Die Testanfrage trägt 0x1234.
         assertEquals(0x1234, DnsMessage.transactionId(dnsQuery("werbenetz", "example")))
     }
 
@@ -189,9 +189,9 @@ class NetworkFilterTest {
 
     @Test
     fun `erkennt eine untergeschobene Antwort an abweichender Kennung`() {
-        // Kern der Absicherung: Eine Antwort mit fremder Kennung gehoert nicht
-        // zu unserer Anfrage. Wer das nicht prueft, nimmt gefaelschte Adressen
-        // an, die zufaellig auf dem richtigen Anschluss eintreffen.
+        // Kern der Absicherung: Eine Antwort mit fremder Kennung gehört nicht
+        // zu unserer Anfrage. Wer das nicht prüft, nimmt gefälschte Adressen
+        // an, die zufällig auf dem richtigen Anschluss eintreffen.
         val query = dnsQuery("meine-bank", "de")
         val forged = dnsQuery("meine-bank", "de")
         forged[0] = 0xAB.toByte()
@@ -201,7 +201,7 @@ class NetworkFilterTest {
     }
 
     @Test
-    fun `Absage traegt dieselbe Kennung wie die Anfrage`() {
+    fun `Absage trägt dieselbe Kennung wie die Anfrage`() {
         val query = dnsQuery("werbenetz", "example")
         val response = DnsMessage.nxDomainResponse(query)
 
@@ -210,11 +210,11 @@ class NetworkFilterTest {
 
     // -- IPv4 und UDP ---------------------------------------------------
 
-    /** Baut ein vollstaendiges IPv4-UDP-Paket. */
+    /** Baut ein vollständiges IPv4-UDP-Paket. */
     private fun udpPacket(payload: ByteArray): ByteArray {
         val total = 20 + 8 + payload.size
         val packet = ByteArray(total)
-        packet[0] = 0x45.toByte()                                  // IPv4, 5 Woerter Kopf
+        packet[0] = 0x45.toByte()                                  // IPv4, 5 Wörter Kopf
         packet[2] = ((total shr 8) and 0xFF).toByte()
         packet[3] = (total and 0xFF).toByte()
         packet[8] = 64.toByte()                                    // Lebensdauer
@@ -264,7 +264,7 @@ class NetworkFilterTest {
     }
 
     @Test
-    fun `Antwort vertauscht Adressen und Anschluesse`() {
+    fun `Antwort vertauscht Adressen und Anschlüsse`() {
         val payload = dnsQuery("werbenetz", "example")
         val request = Ipv4Udp.parse(udpPacket(payload), 28 + payload.size)!!
         val answer = DnsMessage.nxDomainResponse(payload)
@@ -272,7 +272,7 @@ class NetworkFilterTest {
         val response = Ipv4Udp.buildResponse(request, answer)
         val parsed = Ipv4Udp.parse(response, response.size)!!
 
-        // Die Antwort muss vom vorgetaeuschten Namensserver zum Frager laufen.
+        // Die Antwort muss vom vorgetäuschten Namensserver zum Frager laufen.
         assertArrayEquals(byteArrayOf(10, 111, 222.toByte(), 2), parsed.sourceAddress)
         assertArrayEquals(byteArrayOf(10, 111, 222.toByte(), 1), parsed.destinationAddress)
         assertEquals(53, parsed.sourcePort)
@@ -281,13 +281,13 @@ class NetworkFilterTest {
     }
 
     @Test
-    fun `Antwort traegt eine gueltige IP-Pruefsumme`() {
+    fun `Antwort trägt eine gültige IP-Prüfsumme`() {
         val payload = dnsQuery("werbenetz", "example")
         val request = Ipv4Udp.parse(udpPacket(payload), 28 + payload.size)!!
         val response = Ipv4Udp.buildResponse(request, payload)
 
-        // Ueber einen korrekten Kopf inklusive Pruefsumme gerechnet ergibt die
-        // Einerkomplementsumme immer 0xFFFF. Ein Empfaenger, der das nicht
+        // Über einen korrekten Kopf inklusive Prüfsumme gerechnet ergibt die
+        // Einerkomplementsumme immer 0xFFFF. Ein Empfänger, der das nicht
         // sieht, verwirft das Paket wortlos.
         var sum = 0L
         var index = 0
@@ -301,7 +301,7 @@ class NetworkFilterTest {
     }
 
     @Test
-    fun `Antwort meldet die richtige Gesamtlaenge`() {
+    fun `Antwort meldet die richtige Gesamtlänge`() {
         val payload = dnsQuery("werbenetz", "example")
         val request = Ipv4Udp.parse(udpPacket(payload), 28 + payload.size)!!
         val response = Ipv4Udp.buildResponse(request, payload)

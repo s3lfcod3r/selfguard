@@ -11,7 +11,7 @@ import java.security.cert.CertificateFactory
 import java.security.cert.X509Certificate
 
 /**
- * Liest den PackageManager aus und uebersetzt ihn in [InstalledApp].
+ * Liest den PackageManager aus und übersetzt ihn in [InstalledApp].
  *
  * Die einzige Stelle im App-Audit mit Android-Bezug. Alles Urteilende steckt
  * in den Detektoren, die nur noch auf dem Ergebnis arbeiten.
@@ -19,10 +19,10 @@ import java.security.cert.X509Certificate
 object AppInventory {
 
     /**
-     * Metadaten werden **paketweise** geholt, nicht gebuendelt.
+     * Metadaten werden **paketweise** geholt, nicht gebündelt.
      *
-     * `getInstalledPackages` mit GET_SERVICES und GET_RECEIVERS laeuft auf
-     * Geraeten mit vielen Apps in eine TransactionTooLargeException, weil das
+     * `getInstalledPackages` mit GET_SERVICES und GET_RECEIVERS läuft auf
+     * Geräten mit vielen Apps in eine TransactionTooLargeException, weil das
      * Ergebnis nicht mehr durch die Binder-Transaktion passt. Einzelabfragen
      * sind langsamer, brechen aber nicht ab.
      */
@@ -32,7 +32,7 @@ object AppInventory {
 
     /**
      * @param onProgress bekommt (fertig, gesamt) gemeldet
-     * @param isActive wird vor jedem Paket geprueft -- gibt es false zurueck,
+     * @param isActive wird vor jedem Paket geprüft -- gibt es false zurück,
      *   endet der Scan vorzeitig mit dem bisher Gesammelten
      */
     fun readAll(
@@ -103,7 +103,7 @@ object AppInventory {
         }
     }
 
-    /** Wer hat die App installiert? Null heisst: nicht nachvollziehbar. */
+    /** Wer hat die App installiert? Null heißt: nicht nachvollziehbar. */
     @Suppress("DEPRECATION")
     private fun installerOf(pm: PackageManager, pkg: String): String? = runCatching {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
@@ -114,8 +114,8 @@ object AppInventory {
     }.getOrNull()
 
     /**
-     * Bei mehreren Signaturen (Schluesselwechsel) werden alle beruecksichtigt --
-     * sonst entginge uns ein Treffer, sobald ein Anbieter den Schluessel dreht.
+     * Bei mehreren Signaturen (Schlüsselwechsel) werden alle berücksichtigt --
+     * sonst entginge uns ein Treffer, sobald ein Anbieter den Schlüssel dreht.
      */
     @Suppress("DEPRECATION")
     private fun signingCertificates(info: PackageInfo): List<X509Certificate> {

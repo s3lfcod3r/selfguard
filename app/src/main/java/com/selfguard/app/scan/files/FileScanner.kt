@@ -30,23 +30,23 @@ data class FileScanResult(
 )
 
 /**
- * Prueft Dateien in einem vom Nutzer gewaehlten Ordner.
+ * Prüft Dateien in einem vom Nutzer gewählten Ordner.
  *
  * Bewusste Entscheidung: Es wird **kein** `MANAGE_EXTERNAL_STORAGE`
  * angefordert. Diese Berechtigung gibt Zugriff auf den gesamten Speicher,
- * loest zusaetzliche Play-Protect-Warnungen aus und waere fuer den Zweck
- * unverhaeltnismaessig. Stattdessen waehlt der Nutzer den Ordner selbst aus --
- * fuer den Regelfall "meine Downloads pruefen" reicht das vollstaendig, und
- * die App bekommt nie mehr Zugriff als noetig.
+ * löst zusätzliche Play-Protect-Warnungen aus und wäre für den Zweck
+ * unverhältnismäßig. Stattdessen wählt der Nutzer den Ordner selbst aus --
+ * für den Regelfall "meine Downloads prüfen" reicht das vollständig, und
+ * die App bekommt nie mehr Zugriff als nötig.
  *
- * Erkannt wird ueber Pruefsummen, nicht ueber Verhalten: eine Datei, deren
+ * Erkannt wird über Prüfsummen, nicht über Verhalten: eine Datei, deren
  * SHA-256 in einer Schadsoftware-Datenbank steht, ist ein belegter Treffer.
  * Unbekannte Schadsoftware findet dieser Weg nicht -- das ist die ehrliche
- * Grenze eines Pruefsummenabgleichs und steht so auch in den Befundtexten.
+ * Grenze eines Prüfsummenabgleichs und steht so auch in den Befundtexten.
  */
 object FileScanner {
 
-    /** Groesse, ab der eine Datei uebersprungen wird (Video, Abbild, Archiv). */
+    /** Größe, ab der eine Datei übersprungen wird (Video, Abbild, Archiv). */
     private const val MAX_FILE_SIZE = 256L * 1024 * 1024
 
     /** Wie tief in Unterordner gestiegen wird. */

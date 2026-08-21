@@ -10,15 +10,15 @@ import com.selfguard.app.core.FindingCode
 import com.selfguard.app.core.Severity
 
 /**
- * S05, S06, S07 und S09 -- der Zustand des Geraets selbst.
+ * S05, S06, S07 und S09 -- der Zustand des Geräts selbst.
  *
- * Diese Pruefungen haengen an keiner einzelnen App, sondern an Einstellungen,
+ * Diese Prüfungen hängen an keiner einzelnen App, sondern an Einstellungen,
  * die das gesamte Schutzniveau bestimmen. Eine fehlende Bildschirmsperre
- * entwertet jede andere Massnahme.
+ * entwertet jede andere Maßnahme.
  */
 object DeviceStateChecks {
 
-    private const val SUBJECT_DEVICE = "geraet"
+    private const val SUBJECT_DEVICE = "gerät"
 
     fun run(context: Context): List<Finding> = buildList {
         addAll(developerAccess(context))
@@ -33,7 +33,7 @@ object DeviceStateChecks {
         val adbEnabled = globalFlag(context, Settings.Global.ADB_ENABLED)
         if (!devEnabled && !adbEnabled) return emptyList()
 
-        // ADB wiegt schwerer: damit reicht ein Kabel fuer weitreichenden Zugriff.
+        // ADB wiegt schwerer: damit reicht ein Kabel für weitreichenden Zugriff.
         val severity = if (adbEnabled) Severity.MEDIUM else Severity.LOW
 
         return listOf(
@@ -50,7 +50,7 @@ object DeviceStateChecks {
         )
     }
 
-    /** S06 -- Root-Erkennung ueber RootBeer (Apache-2.0). */
+    /** S06 -- Root-Erkennung über RootBeer (Apache-2.0). */
     private fun root(context: Context): List<Finding> {
         val rooted = runCatching { RootBeer(context).isRooted }.getOrDefault(false)
         if (!rooted) return emptyList()
@@ -69,8 +69,8 @@ object DeviceStateChecks {
     /**
      * S07 -- Hinweis auf ein nicht ab Werk signiertes System.
      *
-     * Bewusst nur die billige Pruefung auf Test-Signaturschluessel. Eine
-     * belastbare Aussage kaeme von der Play-Integrity-Pruefung, die aber einen
+     * Bewusst nur die billige Prüfung auf Test-Signaturschlüssel. Eine
+     * belastbare Aussage käme von der Play-Integrity-Prüfung, die aber einen
      * eigenen Server mit Einmalwert braucht -- die App soll offline nutzbar
      * bleiben. Als Vorbehalt steht das so auch im Befundtext.
      */

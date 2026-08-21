@@ -14,14 +14,14 @@ import com.selfguard.app.net.BlocklistUpdater
 import java.util.concurrent.TimeUnit
 
 /**
- * Haelt Indikatoren und Sperrlisten von selbst aktuell.
+ * Hält Indikatoren und Sperrlisten von selbst aktuell.
  *
- * Warum das noetig ist: Ein Sicherheitswerkzeug mit veralteten Daten ist
- * schlimmer als keines, weil es Sicherheit vortaeuscht. Die Stalkerware-Liste
- * bekommt laufend neue Eintraege, die Sperrlisten taeglich.
+ * Warum das nötig ist: Ein Sicherheitswerkzeug mit veralteten Daten ist
+ * schlimmer als keines, weil es Sicherheit vortäuscht. Die Stalkerware-Liste
+ * bekommt laufend neue Einträge, die Sperrlisten täglich.
  *
  * Bewusst nur bei ungetakteter Verbindung: die strenge Sperrliste bringt
- * zweistellige Megabyte mit, und niemand soll dafuer sein Datenvolumen
+ * zweistellige Megabyte mit, und niemand soll dafür sein Datenvolumen
  * verlieren.
  */
 class UpdateWorker(
@@ -35,7 +35,7 @@ class UpdateWorker(
         val indicators = IocUpdater.refresh(context)
 
         // Sperrlisten nur erneuern, wenn schon einmal welche gebaut wurden --
-        // sonst laedt die App im Hintergrund Megabyte fuer eine Funktion
+        // sonst lädt die App im Hintergrund Megabyte für eine Funktion
         // herunter, die der Nutzer nie eingeschaltet hat.
         val blocklists = if (Prefs.blockedDomains(context) > 0) {
             val tier = runCatching { BlocklistTier.valueOf(Prefs.blocklistTier(context)) }
@@ -68,7 +68,7 @@ class UpdateWorker(
             WorkManager.getInstance(context).enqueueUniquePeriodicWork(
                 WORK_NAME,
                 // KEEP: eine bereits laufende Planung nicht bei jedem App-Start
-                // zuruecksetzen, sonst kaeme sie nie zur Ausfuehrung.
+                // zurücksetzen, sonst käme sie nie zur Ausführung.
                 ExistingPeriodicWorkPolicy.KEEP,
                 request,
             )

@@ -9,7 +9,7 @@ import java.io.File
  * Die geladenen Indikatoren.
  *
  * Alles klein geschrieben -- der Abgleich normalisiert beide Seiten, damit
- * Gross-/Kleinschreibung keine Treffer verschluckt.
+ * Groß-/Kleinschreibung keine Treffer verschluckt.
  */
 data class IocSet(
     val packages: Set<String> = emptySet(),
@@ -30,15 +30,15 @@ data class IocSet(
 }
 
 /**
- * Laedt die Stalkerware-Indikatoren von Echap.
+ * Lädt die Stalkerware-Indikatoren von Echap.
  *
  * Zwei Quellen in fester Rangfolge:
  *  1. eine aktualisierte Fassung im internen Speicher, falls vorhanden
- *  2. das mitgelieferte Buendel aus den Assets
+ *  2. das mitgelieferte Bündel aus den Assets
  *
  * Dadurch ist die Erkennung ab der ersten Sekunde ohne Netzverbindung
  * einsatzbereit und wird trotzdem aktuell gehalten. Die Aktualisierung
- * uebernimmt [IocUpdater].
+ * übernimmt [IocUpdater].
  *
  * Datenquelle: AssoEchap/stalkerware-indicators, Lizenz CC-BY 4.0. Die
  * Namensnennung steht in den App-Einstellungen.
@@ -72,12 +72,12 @@ object IocStore {
         }
     }
 
-    /** Nach einer Aktualisierung aufrufen, damit der naechste Scan neu liest. */
+    /** Nach einer Aktualisierung aufrufen, damit der nächste Scan neu liest. */
     fun invalidate() {
         cached = null
     }
 
-    /** Fertig verpackt fuer die App-Detektoren. */
+    /** Fertig verpackt für die App-Detektoren. */
     fun detectorContext(context: Context): DetectorContext {
         val iocs = load(context)
         return DetectorContext(
@@ -124,8 +124,8 @@ object IocStore {
                 line == SECTION_CERTS -> current = certs
                 line == SECTION_SAMPLES -> current = samples
                 line == SECTION_DOMAINS -> current = domains
-                // Unbekannte Abschnitte werden uebersprungen, damit ein
-                // spaeter erweitertes Format aeltere Fassungen nicht bricht.
+                // Unbekannte Abschnitte werden übersprungen, damit ein
+                // später erweitertes Format ältere Fassungen nicht bricht.
                 line.startsWith("[") -> current = null
                 else -> current?.add(line.lowercase())
             }

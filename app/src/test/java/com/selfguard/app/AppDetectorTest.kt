@@ -19,10 +19,10 @@ import org.junit.Assert.assertTrue
 import org.junit.Test
 
 /**
- * Prueft die Detektoren als reine Funktionen -- ohne Geraet, ohne Robolectric.
+ * Prüft die Detektoren als reine Funktionen -- ohne Gerät, ohne Robolectric.
  *
  * Der wichtigste Teil sind die Gegenproben: ein Scanner, der bei normalen Apps
- * anschlaegt, ist wertlos. Zu jedem Treffer gehoert deshalb ein Fall, der
+ * anschlägt, ist wertlos. Zu jedem Treffer gehört deshalb ein Fall, der
  * *nicht* anschlagen darf.
  */
 class AppDetectorTest {
@@ -84,7 +84,7 @@ class AppDetectorTest {
     }
 
     @Test
-    fun `meldet regulaer signierte App nicht`() {
+    fun `meldet regulär signierte App nicht`() {
         assertTrue(DebugCertDetector.inspect(app(), ctx).isEmpty())
     }
 
@@ -115,10 +115,10 @@ class AppDetectorTest {
 
     @Test
     fun `meldet App ohne Starter-Symbol mit Hintergrunddiensten`() {
-        // Ohne bekannte Installationsquelle -- so kommt Ueberwachungssoftware
-        // auf ein Geraet. Aus einem gepflegten Katalog waere derselbe Aufbau
-        // eine gewoehnliche Begleit-App und darf nicht gemeldet werden;
-        // dafuer gibt es eine eigene Gegenprobe in FalsePositiveTest.
+        // Ohne bekannte Installationsquelle -- so kommt Überwachungssoftware
+        // auf ein Gerät. Aus einem gepflegten Katalog wäre derselbe Aufbau
+        // eine gewöhnliche Begleit-App und darf nicht gemeldet werden;
+        // dafür gibt es eine eigene Gegenprobe in FalsePositiveTest.
         val findings = HiddenAppDetector.inspect(
             app(installerPackage = null, hasLauncher = false, serviceCount = 3), ctx
         )
@@ -155,14 +155,14 @@ class AppDetectorTest {
     )
 
     @Test
-    fun `meldet breites Ueberwachungsprofil als schwerwiegend`() {
+    fun `meldet breites Überwachungsprofil als schwerwiegend`() {
         val findings = SpyPermissionDetector.inspect(app(requestedPermissions = spyPermissions), ctx)
         assertEquals(FindingCode.APP_SPY_PERMISSIONS, findings.first().code)
         assertEquals(Severity.HIGH, findings.first().severity)
     }
 
     @Test
-    fun `meldet uebliche Messenger-Berechtigungen nicht`() {
+    fun `meldet übliche Messenger-Berechtigungen nicht`() {
         val messenger = listOf(
             "android.permission.CAMERA",
             "android.permission.READ_CONTACTS",
@@ -173,7 +173,7 @@ class AppDetectorTest {
     }
 
     @Test
-    fun `wertet Bedienungshilfen-Dienst hoeher als reine Berechtigungen`() {
+    fun `wertet Bedienungshilfen-Dienst höher als reine Berechtigungen`() {
         val app = app(
             requestedPermissions = listOf(
                 "android.permission.READ_SMS",
@@ -205,7 +205,7 @@ class AppDetectorTest {
 
     @Test
     fun `meldet bekanntes Signaturzertifikat auch bei neuem Paketnamen`() {
-        // Stalkerware-Anbieter wechseln Paketnamen, den Schluessel meist nicht.
+        // Stalkerware-Anbieter wechseln Paketnamen, den Schlüssel meist nicht.
         val knownCert = "7f5c0d54a813ba9b87a91420ca2c3de5e7948f09"
         val iocs = DetectorContext(stalkerwareCertSha1 = setOf(knownCert))
         val findings = StalkerwareDetector.inspect(
@@ -243,9 +243,9 @@ class AppDetectorTest {
     // -- D08 Markenmissbrauch -------------------------------------------
 
     @Test
-    fun `meldet gefaelschtes WhatsApp`() {
+    fun `meldet gefälschtes WhatsApp`() {
         val findings = BrandImpersonationDetector.inspect(
-            app(packageName = "com.boese.faelschung", label = "WhatsApp"), ctx
+            app(packageName = "com.böse.fälschung", label = "WhatsApp"), ctx
         )
         assertEquals(FindingCode.APP_BRAND_IMPERSONATION, findings.first().code)
     }
@@ -261,7 +261,7 @@ class AppDetectorTest {
     @Test
     fun `erkennt Schreibweise mit Leerzeichen als denselben Namen`() {
         val findings = BrandImpersonationDetector.inspect(
-            app(packageName = "com.boese.faelschung", label = "Whats App"), ctx
+            app(packageName = "com.böse.fälschung", label = "Whats App"), ctx
         )
         assertEquals(FindingCode.APP_BRAND_IMPERSONATION, findings.first().code)
     }
@@ -277,7 +277,7 @@ class AppDetectorTest {
     // -- Zusammenspiel und Bewertung ------------------------------------
 
     @Test
-    fun `saubere App erzeugt ueberhaupt keine Befunde`() {
+    fun `saubere App erzeugt überhaupt keine Befunde`() {
         assertTrue(AppDetectors.inspect(app(), ctx).isEmpty())
     }
 

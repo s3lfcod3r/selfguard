@@ -9,10 +9,10 @@ import org.junit.Assert.assertTrue
 import org.junit.Test
 
 /**
- * Prueft, woher eine App laut Anzeige stammt.
+ * Prüft, woher eine App laut Anzeige stammt.
  *
- * Hintergrund ist ein Fehler, der auf einem echten Geraet auffiel: Der Filter
- * der App-Liste hiess "Selbst installiert", zeigte aber alles an, was keine
+ * Hintergrund ist ein Fehler, der auf einem echten Gerät auffiel: Der Filter
+ * der App-Liste hieß "Selbst installiert", zeigte aber alles an, was keine
  * System-App ist. Darunter fielen vom Hersteller nachgeladene Begleit-Apps
  * wie der Galaxy Watch5 Manager -- die hatte niemand selbst installiert.
  */
@@ -83,7 +83,7 @@ class InstallOriginTest {
     }
 
     @Test
-    fun `zaehlt vorinstallierte Apps nicht zu den nachinstallierten`() {
+    fun `zählt vorinstallierte Apps nicht zu den nachinstallierten`() {
         assertEquals(
             "Ab Werk vorinstalliert",
             InstallOrigin.describe(app(isSystemApp = true)),
@@ -92,8 +92,8 @@ class InstallOriginTest {
 
     @Test
     fun `erkennt aktualisierte System-Apps trotz Store-Eintrag als vorinstalliert`() {
-        // Eine aktualisierte System-App traegt oft den Play Store als Quelle.
-        // Wer nur darauf schaut, erklaert eine ab Werk vorhandene App zur
+        // Eine aktualisierte System-App trägt oft den Play Store als Quelle.
+        // Wer nur darauf schaut, erklärt eine ab Werk vorhandene App zur
         // selbst geladenen.
         val text = InstallOrigin.describe(
             app(
@@ -105,15 +105,15 @@ class InstallOriginTest {
         assertEquals("Ab Werk dabei, seitdem aktualisiert", text)
     }
 
-    // -- Rueckwirkung auf die Erkennung ---------------------------------
+    // -- Rückwirkung auf die Erkennung ---------------------------------
 
     @Test
     fun `meldet Begleit-App aus dem Galaxy Store nicht als versteckt laufend`() {
         // Der Fall aus dem Screenshot: Galaxy Watch5 Manager, kein
-        // Startsymbol, viele Dienste -- aber regulaer aus dem Galaxy Store.
+        // Startsymbol, viele Dienste -- aber regulär aus dem Galaxy Store.
         // Solange dessen Paketname falsch eingetragen war, meldete SelfGuard
         // das als schwerwiegenden Befund. Genau solche Fehlalarme bringen
-        // Nutzer dazu, kuenftig auch die echten Meldungen zu ueberblaettern.
+        // Nutzer dazu, künftig auch die echten Meldungen zu überblättern.
         val watchManager = app(
             packageName = "com.samsung.android.heartplugin",
             installerPackage = "com.sec.android.app.samsungapps",

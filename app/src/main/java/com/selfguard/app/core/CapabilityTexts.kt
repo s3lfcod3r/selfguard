@@ -1,9 +1,9 @@
 package com.selfguard.app.core
 
 /**
- * Name einer Faehigkeit und die Folgen des Entziehens.
+ * Name einer Fähigkeit und die Folgen des Entziehens.
  *
- * @param label kurze Bezeichnung fuer die Liste
+ * @param label kurze Bezeichnung für die Liste
  * @param consequence was danach nicht mehr geht -- der eigentliche Punkt
  * @param action Beschriftung des Knopfes
  */
@@ -17,12 +17,12 @@ data class CapabilityText(
  * Klartext zu jeder [Capability], zweisprachig -- wie [FindingTexts] getrennt
  * von der Logik gehalten.
  *
- * Leitlinie fuer die Folgentexte: **konkret und ohne Beschoenigung.** Ein
- * Sicherheitsprogramm, das zum Abschalten raet und verschweigt, dass danach
- * die Smartwatch stumm bleibt oder der Passwortmanager nicht mehr ausfuellt,
+ * Leitlinie für die Folgentexte: **konkret und ohne Beschönigung.** Ein
+ * Sicherheitsprogramm, das zum Abschalten rät und verschweigt, dass danach
+ * die Smartwatch stumm bleibt oder der Passwortmanager nicht mehr ausfüllt,
  * verliert das Vertrauen des Nutzers beim ersten Mal -- und der schaltet dann
- * alles wieder ein, auch das, was wirklich stoerte. Deshalb steht hier
- * ausdruecklich auch, wann eine Berechtigung berechtigt ist.
+ * alles wieder ein, auch das, was wirklich störte. Deshalb steht hier
+ * ausdrücklich auch, wann eine Berechtigung berechtigt ist.
  */
 object CapabilityTexts {
 
@@ -38,8 +38,8 @@ object CapabilityTexts {
         Capability.MESSAGES to CapabilityText(
             label = "Nachrichten mitlesen",
             consequence = "Die App bekommt danach keine SMS mehr. Bei Messengern und " +
-                "Banking-Apps faellt damit das automatische Eintragen des " +
-                "Bestaetigungscodes weg -- den muessen Sie dann abtippen.",
+                "Banking-Apps fällt damit das automatische Eintragen des " +
+                "Bestätigungscodes weg -- den müssen Sie dann abtippen.",
             action = REVOKE_DE,
         ),
         Capability.CALL_LOG to CapabilityText(
@@ -50,7 +50,7 @@ object CapabilityTexts {
         ),
         Capability.MICROPHONE to CapabilityText(
             label = "Mikrofon aufzeichnen",
-            consequence = "Sprachnachrichten, Telefonate ueber die App und Diktieren " +
+            consequence = "Sprachnachrichten, Telefonate über die App und Diktieren " +
                 "gehen danach nicht mehr.",
             action = REVOKE_DE,
         ),
@@ -65,7 +65,7 @@ object CapabilityTexts {
             consequence = "Die App kennt den Standort nur noch, solange sie offen ist. " +
                 "Automatische Ortsfunktionen entfallen -- etwa das Erkennen, dass Sie " +
                 "zu Hause angekommen sind, oder das Wiederfinden eines verlegten " +
-                "Geraets.",
+                "Geräts.",
             action = REVOKE_DE,
         ),
         Capability.LOCATION to CapabilityText(
@@ -77,11 +77,11 @@ object CapabilityTexts {
         Capability.CONTACTS to CapabilityText(
             label = "Kontakte lesen",
             consequence = "Die App zeigt danach nur noch Nummern statt Namen. " +
-                "Kontaktvorschlaege beim Teilen entfallen.",
+                "Kontaktvorschläge beim Teilen entfallen.",
             action = REVOKE_DE,
         ),
         Capability.OVERLAY to CapabilityText(
-            label = "Bildschirm ueberlagern",
+            label = "Bildschirm überlagern",
             consequence = "Schwebende Fenster dieser App verschwinden -- etwa " +
                 "Chat-Blasen, ein eingeblendeter Anrufbildschirm oder ein " +
                 "Blaulichtfilter.",
@@ -89,15 +89,15 @@ object CapabilityTexts {
         ),
         Capability.AUTOSTART to CapabilityText(
             label = "Automatisch starten",
-            consequence = "Android laesst diese Berechtigung nicht einzeln entziehen -- " +
-                "sie wird bei der Installation vergeben. Viele Hersteller haben dafuer " +
-                "eine eigene Akku-Einstellung: Wird die App dort eingeschraenkt, kommen " +
-                "ihre Benachrichtigungen spaeter oder gar nicht.",
+            consequence = "Android lässt diese Berechtigung nicht einzeln entziehen -- " +
+                "sie wird bei der Installation vergeben. Viele Hersteller haben dafür " +
+                "eine eigene Akku-Einstellung: Wird die App dort eingeschränkt, kommen " +
+                "ihre Benachrichtigungen später oder gar nicht.",
             action = INSPECT_DE,
         ),
         Capability.APP_LIST to CapabilityText(
             label = "Alle installierten Apps sehen",
-            consequence = "Android laesst diese Berechtigung nicht einzeln entziehen. " +
+            consequence = "Android lässt diese Berechtigung nicht einzeln entziehen. " +
                 "Sie bleibt, solange die App installiert ist -- wer sie loswerden will, " +
                 "muss die App entfernen.",
             action = INSPECT_DE,
@@ -105,9 +105,9 @@ object CapabilityTexts {
         Capability.INSTALL_PACKAGES to CapabilityText(
             label = "Apps installieren",
             consequence = "Die App kann sich danach nicht mehr selbst aktualisieren. " +
-                "Bei einem App-Katalog wie F-Droid oder einem eigenen Store faellt " +
+                "Bei einem App-Katalog wie F-Droid oder einem eigenen Store fällt " +
                 "damit die Update-Funktion aus -- bei allem anderen ist der Zugriff " +
-                "ueberfluessig.",
+                "überflüssig.",
             action = REVOKE_DE,
         ),
         Capability.USAGE_STATS to CapabilityText(
@@ -125,22 +125,22 @@ object CapabilityTexts {
         ),
         Capability.ACCESSIBILITY to CapabilityText(
             label = "Bedienungshilfen-Dienst",
-            consequence = "Vorsicht: Hiervon haengen echte Hilfsfunktionen ab. Bei einer " +
-                "Passwortverwaltung faellt das automatische Ausfuellen weg, ein " +
-                "Vorlesedienst verstummt, Fernwartung und Automatisierungen hoeren auf " +
-                "zu arbeiten. Kennen Sie den Eintrag nicht, gehoert er abgeschaltet.",
+            consequence = "Vorsicht: Hiervon hängen echte Hilfsfunktionen ab. Bei einer " +
+                "Passwortverwaltung fällt das automatische Ausfüllen weg, ein " +
+                "Vorlesedienst verstummt, Fernwartung und Automatisierungen hören auf " +
+                "zu arbeiten. Kennen Sie den Eintrag nicht, gehört er abgeschaltet.",
             action = REVOKE_DE,
         ),
         Capability.DEVICE_ADMIN to CapabilityText(
-            label = "Geraeteverwalter",
-            consequence = "Muss ohnehin entzogen werden, bevor sich die App ueberhaupt " +
-                "entfernen laesst. Bei einem verwalteten Diensthandy verlieren Sie " +
+            label = "Geräteverwalter",
+            consequence = "Muss ohnehin entzogen werden, bevor sich die App überhaupt " +
+                "entfernen lässt. Bei einem verwalteten Diensthandy verlieren Sie " +
                 "danach den Zugriff auf Firmenkonten und Firmendaten.",
             action = REVOKE_DE,
         ),
         Capability.NOTIFICATION_LISTENER to CapabilityText(
             label = "Benachrichtigungen mitlesen",
-            consequence = "Wichtig bei Smartwatches und Kopfhoerern: Ohne diesen Zugriff " +
+            consequence = "Wichtig bei Smartwatches und Kopfhörern: Ohne diesen Zugriff " +
                 "kommen dort keine Benachrichtigungen mehr an. Auch Autoradios und " +
                 "Verlaufs-Apps brauchen ihn.",
             action = REVOKE_DE,

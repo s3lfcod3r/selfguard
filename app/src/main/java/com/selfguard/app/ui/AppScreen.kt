@@ -11,15 +11,15 @@ import com.selfguard.app.net.BlocklistTier
 import com.selfguard.app.scan.ScanState
 import com.selfguard.app.scan.apps.AppAction
 
-/** Die vier Ansichten. Kein Reiter-Menue -- man ist immer auf genau einer. */
+/** Die vier Ansichten. Kein Reiter-Menü -- man ist immer auf genau einer. */
 private enum class Ansicht { START, APPS, DATEIEN, EINSTELLUNGEN }
 
 /**
  * Ganz einfache Navigation.
  *
- * Frueher lagen vier gleichrangige Reiter nebeneinander, in denen Scan,
+ * Früher lagen vier gleichrangige Reiter nebeneinander, in denen Scan,
  * Filter, Dateien und Quellen gleich wichtig aussahen. Jetzt gibt es einen
- * Startbildschirm, von dem drei Nebenansichten abgehen -- und die Zuruecktaste
+ * Startbildschirm, von dem drei Nebenansichten abgehen -- und die Zurücktaste
  * tut, was man erwartet.
  */
 @Composable

@@ -1,24 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- Nur fuer die Aktualisierung der Indikator- und Sperrlisten. Der Scan
-         selbst laeuft vollstaendig offline. -->
+    <!-- Nur für die Aktualisierung der Indikator- und Sperrlisten. Der Scan
+         selbst läuft vollständig offline. -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <!--
-        Unverzichtbar fuer einen Scanner: ohne die Sicht auf alle Pakete gibt
-        es nichts zu pruefen. Google stuft die Berechtigung als sensibel ein,
-        erlaubt sie aber ausdruecklich fuer Virenschutz-Apps. Beim Sideload
-        fuehrt sie zu einer Play-Protect-Warnung; das ist erwartet und in der
-        Store-Beschreibung erklaert.
+        Unverzichtbar für einen Scanner: ohne die Sicht auf alle Pakete gibt
+        es nichts zu prüfen. Google stuft die Berechtigung als sensibel ein,
+        erlaubt sie aber ausdrücklich für Virenschutz-Apps. Beim Sideload
+        führt sie zu einer Play-Protect-Warnung; das ist erwartet und in der
+        Store-Beschreibung erklärt.
     -->
     <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
 
-    <!-- Vordergrunddienst fuer den Netzfilter. -->
+    <!-- Vordergrunddienst für den Netzfilter. -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <!-- Ohne diese Berechtigung lehnt Android seit Version 8 jede
+         Deinstallations-Anfrage ab: der Dialog erscheint schlicht nicht. -->
+    <uses-permission android:name="android.permission.REQUEST_DELETE_PACKAGES" />
 
     <application
         android:name=".SelfGuardApp"

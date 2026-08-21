@@ -29,16 +29,16 @@ object IocUpdater {
     private const val VENDOR_COLUMN = 4
 
     /**
-     * Ab so vielen unabhaengigen Anbietern gilt ein Zertifikat als geteilt
-     * und taugt nicht mehr als Indikator. Zwei koennen eine Umbenennung
+     * Ab so vielen unabhängigen Anbietern gilt ein Zertifikat als geteilt
+     * und taugt nicht mehr als Indikator. Zwei können eine Umbenennung
      * desselben Produkts sein, drei sind es nicht mehr.
      */
     private const val SHARED_CERT_VENDOR_THRESHOLD = 3
 
     /**
-     * Laedt beide Quelldateien und ersetzt die zwischengespeicherte Fassung.
+     * Lädt beide Quelldateien und ersetzt die zwischengespeicherte Fassung.
      *
-     * Geschrieben wird erst nach vollstaendigem Download in eine temporaere
+     * Geschrieben wird erst nach vollständigem Download in eine temporäre
      * Datei, die dann umbenannt wird -- ein Abbruch mitten im Download darf
      * keine halbe Indikatorenliste hinterlassen, mit der die Erkennung still
      * schlechter wird.
@@ -65,10 +65,10 @@ object IocUpdater {
     /**
      * Formt die beiden CSV-Dateien in das Abschnittsformat um.
      *
-     * Dabei fliegen Zertifikate raus, die **drei oder mehr unabhaengige
-     * Anbieter** teilen. Solche Fingerabdruecke gehoeren zu offenen
-     * Schluesseln aus dem Android-Quelltext und sagen ueber eine App nichts
-     * aus: Der AOSP-Testschluessel etwa taucht bei neun Ueberwachungs-
+     * Dabei fliegen Zertifikate raus, die **drei oder mehr unabhängige
+     * Anbieter** teilen. Solche Fingerabdrücke gehören zu offenen
+     * Schlüsseln aus dem Android-Quelltext und sagen über eine App nichts
+     * aus: Der AOSP-Testschlüssel etwa taucht bei neun Überwachungs-
      * produkten auf -- und ebenso bei echten Systemkomponenten. Wer darauf
      * abgleicht, meldet ein normales Telefon als verseucht.
      */
@@ -110,7 +110,7 @@ object IocUpdater {
         }
 
         return buildString {
-            appendLine("# SelfGuard IOC-Buendel -- Stalkerware-Indikatoren")
+            appendLine("# SelfGuard IOC-Bündel -- Stalkerware-Indikatoren")
             appendLine("# Quelle: AssoEchap/stalkerware-indicators, Lizenz CC-BY 4.0")
             appendLine("# https://github.com/AssoEchap/stalkerware-indicators")
             appendLine("# aktualisiert am ${java.time.LocalDate.now()}")

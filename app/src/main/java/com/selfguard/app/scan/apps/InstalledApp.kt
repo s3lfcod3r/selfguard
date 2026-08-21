@@ -6,14 +6,14 @@ package com.selfguard.app.scan.apps
  *
  * Der Zweck dieser Zwischenschicht: das Auslesen des PackageManagers steckt
  * allein in [AppInventory] (schwer testbar), die Detektoren arbeiten nur noch
- * auf diesem reinen Datensatz und lassen sich damit ohne Geraet und ohne
- * Robolectric pruefen.
+ * auf diesem reinen Datensatz und lassen sich damit ohne Gerät und ohne
+ * Robolectric prüfen.
  */
 data class InstalledApp(
     val packageName: String,
     val label: String,
     val versionName: String,
-    /** Paket, das die Installation ausgeloest hat -- null bei unbekannter Quelle. */
+    /** Paket, das die Installation ausgelöst hat -- null bei unbekannter Quelle. */
     val installerPackage: String?,
     val isSystemApp: Boolean,
     /** Aktualisierte System-App: liegt im System, wurde aber ersetzt. */
@@ -23,7 +23,7 @@ data class InstalledApp(
     val requestedPermissions: List<String>,
     /** SHA-256 aller Signaturzertifikate, klein geschrieben, ohne Trenner. */
     val signingSha256: List<String>,
-    /** SHA-1 derselben Zertifikate -- fremde Datensaetze fuehren diesen Fingerabdruck. */
+    /** SHA-1 derselben Zertifikate -- fremde Datensätze führen diesen Fingerabdruck. */
     val signingSha1: List<String>,
     /** Kennungen der Zertifikatsinhaber, etwa "CN=Android Debug, O=Android, C=US". */
     val signerSubjects: List<String>,
@@ -31,9 +31,9 @@ data class InstalledApp(
     val hasLauncher: Boolean,
     /** Meldet einen Bedienungshilfen-Dienst an -- Vollzugriff auf Bildschirm und Eingaben. */
     val declaresAccessibilityService: Boolean,
-    /** Meldet einen Geraeteverwalter an -- schwer zu entfernen, weitreichende Rechte. */
+    /** Meldet einen Geräteverwalter an -- schwer zu entfernen, weitreichende Rechte. */
     val declaresDeviceAdmin: Boolean,
-    /** Meldet einen Benachrichtigungs-Mithoerer an. */
+    /** Meldet einen Benachrichtigungs-Mithörer an. */
     val declaresNotificationListener: Boolean,
     val serviceCount: Int,
     val receiverCount: Int,

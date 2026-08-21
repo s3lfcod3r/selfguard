@@ -1,26 +1,26 @@
 package com.selfguard.app.core
 
 /**
- * Wohin fuehrt der Weg, um eine Faehigkeit wieder loszuwerden?
+ * Wohin führt der Weg, um eine Fähigkeit wieder loszuwerden?
  *
  * Android kennt kein einheitliches Ziel: Laufzeitberechtigungen liegen auf der
- * Berechtigungsseite der App, das Ueberlagern des Bildschirms und das
+ * Berechtigungsseite der App, das Überlagern des Bildschirms und das
  * Installieren fremder Pakete jeweils auf einer eigenen Sonderseite, und
- * Bedienungshilfen bzw. Benachrichtigungszugriff in einer geraeteweiten Liste.
+ * Bedienungshilfen bzw. Benachrichtigungszugriff in einer geräteweiten Liste.
  * Wer den Nutzer auf die falsche Seite schickt, hat ihm nicht geholfen --
- * deshalb wird das Ziel hier je Faehigkeit festgehalten.
+ * deshalb wird das Ziel hier je Fähigkeit festgehalten.
  */
 enum class SettingsTarget {
     /** Berechtigungsseite der App. */
     APP_PERMISSIONS,
 
-    /** Sonderzugriff "Ueber anderen Apps anzeigen". */
+    /** Sonderzugriff "Über anderen Apps anzeigen". */
     OVERLAY,
 
-    /** Geraeteweite Liste der Bedienungshilfen. */
+    /** Geräteweite Liste der Bedienungshilfen. */
     ACCESSIBILITY,
 
-    /** Geraeteweite Liste des Benachrichtigungszugriffs. */
+    /** Geräteweite Liste des Benachrichtigungszugriffs. */
     NOTIFICATION_LISTENER,
 
     /** Sonderzugriff "Unbekannte Apps installieren". */
@@ -32,7 +32,7 @@ enum class SettingsTarget {
     /** Sonderzugriff "Alle Dateien verwalten". */
     ALL_FILES,
 
-    /** Liste der Geraeteverwaltungs-Apps. */
+    /** Liste der Geräteverwaltungs-Apps. */
     DEVICE_ADMIN,
 
     /** App-Info -- letzter Ausweg, wenn es keine feinere Seite gibt. */
@@ -40,29 +40,29 @@ enum class SettingsTarget {
 }
 
 /**
- * Eine einzelne Ueberwachungsfaehigkeit einer App.
+ * Eine einzelne Überwachungsfähigkeit einer App.
  *
- * Frueher waren das blosse Zeichenketten in [Finding.evidence]. Als Text
- * liessen sie sich anzeigen, aber nichts damit anfangen -- der Nutzer las
+ * Früher waren das bloße Zeichenketten in [Finding.evidence]. Als Text
+ * ließen sie sich anzeigen, aber nichts damit anfangen -- der Nutzer las
  * "Mikrofon aufzeichnen" und musste sich selbst durch die Einstellungen
- * suchen. Als Aufzaehlung tragen sie jetzt mit, wo man sie abstellt und was
+ * suchen. Als Aufzählung tragen sie jetzt mit, wo man sie abstellt und was
  * danach nicht mehr geht.
  *
- * **Wichtig:** SelfGuard entzieht nichts selbst. Android laesst keine App die
- * Berechtigungen einer anderen aendern (`REVOKE_RUNTIME_PERMISSIONS` ist der
- * Systemsignatur vorbehalten) -- und das ist richtig so, sonst koennte
+ * **Wichtig:** SelfGuard entzieht nichts selbst. Android lässt keine App die
+ * Berechtigungen einer anderen ändern (`REVOKE_RUNTIME_PERMISSIONS` ist der
+ * Systemsignatur vorbehalten) -- und das ist richtig so, sonst könnte
  * Schadsoftware genau diesen Weg nutzen, um Schutzprogramme zu entwaffnen.
- * SelfGuard oeffnet nur die passende Systemseite; tippen muss der Nutzer.
+ * SelfGuard öffnet nur die passende Systemseite; tippen muss der Nutzer.
  *
- * Die Reihenfolge der Eintraege ist die Anzeigereihenfolge: erst was
+ * Die Reihenfolge der Einträge ist die Anzeigereihenfolge: erst was
  * mitliest, dann was zugreift, dann die Sonderrechte.
  *
- * @param permissions Berechtigungen, die diese Faehigkeit belegen. Innerhalb
- *   einer Faehigkeit zaehlt ein Treffer genau einmal -- READ_SMS und
- *   RECEIVE_SMS sind dasselbe Koennen.
- * @param revocable Ob Android das ueberhaupt einzeln entziehen laesst.
+ * @param permissions Berechtigungen, die diese Fähigkeit belegen. Innerhalb
+ *   einer Fähigkeit zählt ein Treffer genau einmal -- READ_SMS und
+ *   RECEIVE_SMS sind dasselbe Können.
+ * @param revocable Ob Android das überhaupt einzeln entziehen lässt.
  *   Normale Berechtigungen wie RECEIVE_BOOT_COMPLETED werden bei der
- *   Installation vergeben und bleiben; einen Schalter dafuer gibt es nicht.
+ *   Installation vergeben und bleiben; einen Schalter dafür gibt es nicht.
  *   Das ehrlich zu sagen ist besser, als den Nutzer auf eine Seite zu
  *   schicken, auf der er nichts findet.
  */
@@ -142,7 +142,7 @@ enum class Capability(
     ;
 
     companion object {
-        /** Faehigkeiten, die sich allein aus den Berechtigungen ergeben. */
+        /** Fähigkeiten, die sich allein aus den Berechtigungen ergeben. */
         val FROM_PERMISSIONS: List<Capability> = entries.filter { it.permissions.isNotEmpty() }
     }
 }

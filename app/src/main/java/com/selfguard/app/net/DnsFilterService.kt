@@ -29,7 +29,7 @@ import java.net.DatagramSocket
 import java.net.InetAddress
 import java.net.InetSocketAddress
 
-/** Laufende Zaehler des Filters, fuer die Anzeige. */
+/** Laufende Zähler des Filters, für die Anzeige. */
 data class FilterStats(
     val blocked: Long = 0,
     val passed: Long = 0,
@@ -43,25 +43,25 @@ data class FilterStats(
  *
  * Der entscheidende Entwurfsgedanke steckt in [establish]: Die
  * Tunnelschnittstelle bekommt **nur eine einzige Route** -- die auf den
- * vorgetaeuschten Namensserver. Damit wandert ausschliesslich DNS-Verkehr
- * durch den Tunnel, aller uebrige Verkehr laeuft unberuehrt daran vorbei.
+ * vorgetäuschten Namensserver. Damit wandert ausschließlich DNS-Verkehr
+ * durch den Tunnel, aller übrige Verkehr läuft unberührt daran vorbei.
  *
- * Das erspart genau die Arbeit, fuer die vergleichbare Projekte einen
- * vollstaendigen Netzwerkstapel mitbringen: kein Zerlegen von TCP, keine
+ * Das erspart genau die Arbeit, für die vergleichbare Projekte einen
+ * vollständigen Netzwerkstapel mitbringen: kein Zerlegen von TCP, keine
  * Verbindungsverfolgung, kein messbarer Akkuverbrauch. Der Filter sieht
  * Anfragen wie "welche Adresse hat werbenetz.example" und beantwortet sie
  * selbst oder reicht sie weiter.
  *
- * Bekannte Grenze: DNS ueber TCP wird nicht bedient. Android fragt praktisch
- * immer ueber UDP; nur bei ungewoehnlich grossen Antworten faende ein Programm
- * keinen Weg zurueck.
+ * Bekannte Grenze: DNS über TCP wird nicht bedient. Android fragt praktisch
+ * immer über UDP; nur bei ungewöhnlich großen Antworten fände ein Programm
+ * keinen Weg zurück.
  */
 class DnsFilterService : VpnService() {
 
     private var tunnel: ParcelFileDescriptor? = null
     private var scope: CoroutineScope? = null
 
-    /** Ausgehende Pakete laufen ueber einen einzigen Schreiber. */
+    /** Ausgehende Pakete laufen über einen einzigen Schreiber. */
     private val outgoing = Channel<ByteArray>(capacity = OUTGOING_CAPACITY)
 
     private var blocklist: Blocklist = Blocklist.EMPTY
@@ -69,9 +69,9 @@ class DnsFilterService : VpnService() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         // Muss als Allererstes geschehen: der Dienst wird mit
-        // startForegroundService gestartet und hat danach fuenf Sekunden Zeit,
+        // startForegroundService gestartet und hat danach fünf Sekunden Zeit,
         // sich als Vordergrunddienst zu melden. Sonst beendet Android ihn mit
-        // einer Ausnahme -- auch dann, wenn wir gleich wieder aufhoeren, weil
+        // einer Ausnahme -- auch dann, wenn wir gleich wieder aufhören, weil
         // die VPN-Freigabe fehlt.
         startForeground(NOTIFICATION_ID, buildNotification(FilterStats()))
 
@@ -81,7 +81,7 @@ class DnsFilterService : VpnService() {
         }
         startFiltering()
         // START_STICKY: der Filter soll nach einem Speicherengpass von selbst
-        // zurueckkommen, ohne dass der Nutzer die App wieder oeffnen muss.
+        // zurückkommen, ohne dass der Nutzer die App wieder öffnen muss.
         return START_STICKY
     }
 
@@ -100,8 +100,8 @@ class DnsFilterService : VpnService() {
         if (tunnel != null) return
 
         blocklist = BlocklistStore.load(this)
-        // Die echten Namensserver muessen vor dem Aufbau gelesen werden --
-        // danach steht dort unsere eigene vorgetaeuschte Adresse.
+        // Die echten Namensserver müssen vor dem Aufbau gelesen werden --
+        // danach steht dort unsere eigene vorgetäuschte Adresse.
         upstreamServers = systemDnsServers().ifEmpty { FALLBACK_DNS.map(InetAddress::getByName) }
 
         val descriptor = establish() ?: run {
@@ -122,9 +122,9 @@ class DnsFilterService : VpnService() {
      * Baut die Tunnelschnittstelle auf.
      *
      * Die drei Zeilen mit Adresse, Namensserver und Route sind der ganze
-     * Trick: Der vorgetaeuschte Namensserver ist die einzige Adresse, fuer die
-     * eine Route gesetzt wird. Alles andere kennt der Tunnel nicht und laeuft
-     * deshalb aussen herum.
+     * Trick: Der vorgetäuschte Namensserver ist die einzige Adresse, für die
+     * eine Route gesetzt wird. Alles andere kennt der Tunnel nicht und läuft
+     * deshalb außen herum.
      */
     private fun establish(): ParcelFileDescriptor? = runCatching {
         Builder()
@@ -135,14 +135,14 @@ class DnsFilterService : VpnService() {
             .setMtu(MTU)
             .setBlocking(true)
             .also { builder ->
-                // Die eigene App bleibt aussen vor, damit das Nachladen der
-                // Sperrlisten nicht durch den eigenen Filter laeuft.
+                // Die eigene App bleibt außen vor, damit das Nachladen der
+                // Sperrlisten nicht durch den eigenen Filter läuft.
                 runCatching { builder.addDisallowedApplication(packageName) }
             }
             .establish()
     }.getOrNull()
 
-    /** Liest Pakete aus dem Tunnel und bearbeitet jede Anfrage nebenlaeufig. */
+    /** Liest Pakete aus dem Tunnel und bearbeitet jede Anfrage nebenläufig. */
     private suspend fun readLoop(descriptor: ParcelFileDescriptor, serviceScope: CoroutineScope) {
         val input = FileInputStream(descriptor.fileDescriptor)
         val buffer = ByteArray(MTU)
@@ -165,7 +165,7 @@ class DnsFilterService : VpnService() {
         }
     }
 
-    /** Entscheidet ueber eine einzelne Anfrage. */
+    /** Entscheidet über eine einzelne Anfrage. */
     private suspend fun handle(request: UdpDatagram) {
         val name = DnsMessage.questionName(request.payload)
 
@@ -187,19 +187,19 @@ class DnsFilterService : VpnService() {
      * Reicht eine erlaubte Anfrage an den echten Namensserver weiter.
      *
      * Drei Vorkehrungen, die zusammen verhindern, dass jemand einer
-     * Namensaufloesung eine falsche Adresse unterschiebt:
+     * Namensauflösung eine falsche Adresse unterschiebt:
      *
-     * 1. `protect` haelt die Abfrage aus dem eigenen Tunnel heraus -- sonst
+     * 1. `protect` hält die Abfrage aus dem eigenen Tunnel heraus -- sonst
      *    liefe sie im Kreis.
      * 2. `connect` bindet den Anschluss an genau diesen Namensserver. Der Kern
      *    verwirft danach jedes Paket von einer anderen Adresse. Ohne das nimmt
      *    ein ungebundener Anschluss Antworten von **jedem** Absender an.
      * 3. Die Vorgangskennung der Antwort muss zur Anfrage passen. Damit
-     *    scheitern auch Versuche, die die Absenderadresse faelschen.
+     *    scheitern auch Versuche, die die Absenderadresse fälschen.
      *
-     * Ohne diese Pruefungen koennte ein Angreifer im selben Netz beliebige
-     * Namen umlenken -- fuer alle Apps auf dem Geraet gleichzeitig, solange der
-     * Filter laeuft.
+     * Ohne diese Prüfungen könnte ein Angreifer im selben Netz beliebige
+     * Namen umlenken -- für alle Apps auf dem Gerät gleichzeitig, solange der
+     * Filter läuft.
      */
     private fun askUpstream(query: ByteArray): ByteArray? {
         val expectedId = DnsMessage.transactionId(query) ?: return null
@@ -222,10 +222,10 @@ class DnsFilterService : VpnService() {
     /**
      * Wartet auf eine Antwort mit passender Vorgangskennung.
      *
-     * Unpassende Pakete werden verworfen, nicht zurueckgegeben -- ein
-     * vorgeschobenes Paket soll die echte Antwort nicht verdraengen. Die Zahl
+     * Unpassende Pakete werden verworfen, nicht zurückgegeben -- ein
+     * vorgeschobenes Paket soll die echte Antwort nicht verdrängen. Die Zahl
      * der Versuche ist begrenzt, damit ein Dauerbeschuss den Aufruf nicht
-     * festhaelt.
+     * festhält.
      */
     private fun receiveMatching(socket: DatagramSocket, expectedId: Int): ByteArray? {
         val buffer = ByteArray(MTU)
@@ -233,8 +233,8 @@ class DnsFilterService : VpnService() {
             val reply = DatagramPacket(buffer, buffer.size)
             socket.receive(reply)
 
-            // Passt die Antwort nicht mehr in den Tunnel, waere sie beim
-            // Zurueckschreiben abgeschnitten und damit unbrauchbar.
+            // Passt die Antwort nicht mehr in den Tunnel, wäre sie beim
+            // Zurückschreiben abgeschnitten und damit unbrauchbar.
             if (reply.length >= buffer.size) return null
 
             val response = buffer.copyOf(reply.length)
@@ -259,7 +259,7 @@ class DnsFilterService : VpnService() {
         val manager = getSystemService(ConnectivityManager::class.java) ?: return emptyList()
         val network = manager.activeNetwork ?: return emptyList()
         manager.getLinkProperties(network)?.dnsServers.orEmpty()
-            // Nur IPv4: die Tunnelschnittstelle fuehrt keine IPv6-Adresse.
+            // Nur IPv4: die Tunnelschnittstelle führt keine IPv6-Adresse.
             .filter { it.address.size == IPV4_ADDRESS_SIZE }
     }.getOrDefault(emptyList())
 
@@ -314,9 +314,9 @@ class DnsFilterService : VpnService() {
         private const val ACTION_STOP = "com.selfguard.app.STOP_FILTER"
 
         /**
-         * Adressbereich fuer den Tunnel. Bewusst aus dem gemeinsam genutzten
-         * Bereich 10.x, aber ungewoehnlich weit hinten, damit er nicht mit
-         * einem Heimnetz zusammenfaellt.
+         * Adressbereich für den Tunnel. Bewusst aus dem gemeinsam genutzten
+         * Bereich 10.x, aber ungewöhnlich weit hinten, damit er nicht mit
+         * einem Heimnetz zusammenfällt.
          */
         private const val TUNNEL_ADDRESS = "10.111.222.1"
         private const val PROXY_DNS_ADDRESS = "10.111.222.2"
@@ -357,8 +357,8 @@ class DnsFilterService : VpnService() {
         }
 
         /**
-         * Ab Android 8 muss ein Vordergrunddienst ueber
-         * `startForegroundService` angestossen werden -- ein einfaches
+         * Ab Android 8 muss ein Vordergrunddienst über
+         * `startForegroundService` angestoßen werden -- ein einfaches
          * `startService` lehnt das System aus dem Hintergrund ab.
          */
         private fun startCommand(context: Context, intent: Intent) {

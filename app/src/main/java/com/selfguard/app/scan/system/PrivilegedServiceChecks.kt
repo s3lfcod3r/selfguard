@@ -10,11 +10,11 @@ import com.selfguard.app.core.Severity
 import com.selfguard.app.scan.apps.InstalledApp
 
 /**
- * S02, S03, S04 und S08 -- wer auf diesem Geraet besondere Rechte haelt.
+ * S02, S03, S04 und S08 -- wer auf diesem Gerät besondere Rechte hält.
  *
- * Unterschied zum App-Audit: dort wird geprueft, was eine App *anmeldet*.
- * Hier zaehlt, was tatsaechlich *eingeschaltet* ist. Das ist der deutlich
- * staerkere Befund -- ein angemeldeter Bedienungshilfen-Dienst ist harmlos,
+ * Unterschied zum App-Audit: dort wird geprüft, was eine App *anmeldet*.
+ * Hier zählt, was tatsächlich *eingeschaltet* ist. Das ist der deutlich
+ * stärkere Befund -- ein angemeldeter Bedienungshilfen-Dienst ist harmlos,
  * ein aktiver sieht alles auf dem Bildschirm.
  */
 object PrivilegedServiceChecks {
@@ -39,7 +39,7 @@ object PrivilegedServiceChecks {
     ): List<Finding> = enabledComponents(context, Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES)
         .mapNotNull { component ->
             val app = byPackage[component.packageName]
-            // System-Dienste wie TalkBack sind erwartbar und wuerden nur Rauschen erzeugen.
+            // System-Dienste wie TalkBack sind erwartbar und würden nur Rauschen erzeugen.
             if (app?.isSystemApp == true) return@mapNotNull null
             Finding(
                 code = FindingCode.SYS_ACCESSIBILITY_SERVICE,
@@ -50,7 +50,7 @@ object PrivilegedServiceChecks {
             )
         }
 
-    /** S03 -- Apps mit Geraeteverwalter-Rechten. */
+    /** S03 -- Apps mit Geräteverwalter-Rechten. */
     private fun deviceAdmins(
         context: Context,
         byPackage: Map<String, InstalledApp>,
@@ -61,7 +61,7 @@ object PrivilegedServiceChecks {
 
         return admins.mapNotNull { component ->
             val app = byPackage[component.packageName]
-            // "Mein Geraet finden" und Firmenverwaltung sind System-Apps -- kein Befund.
+            // "Mein Gerät finden" und Firmenverwaltung sind System-Apps -- kein Befund.
             if (app?.isSystemApp == true) return@mapNotNull null
             Finding(
                 code = FindingCode.SYS_DEVICE_ADMIN,
@@ -70,7 +70,7 @@ object PrivilegedServiceChecks {
                 subjectLabel = app?.label ?: component.packageName,
                 evidence = listOfNotNull(
                     "Verwalter: ${component.className}",
-                    "laesst sich erst nach Entzug der Rechte entfernen",
+                    "lässt sich erst nach Entzug der Rechte entfernen",
                     if (app?.hasLauncher == false) "ohne Starter-Symbol" else null,
                 ),
             )
@@ -90,14 +90,14 @@ object PrivilegedServiceChecks {
                 severity = Severity.MEDIUM,
                 subject = component.packageName,
                 subjectLabel = app?.label ?: component.packageName,
-                evidence = listOf("Mithoerer: ${component.className}"),
+                evidence = listOf("Mithörer: ${component.className}"),
             )
         }
 
     /**
-     * S08 -- Apps, die weitere Apps installieren duerfen.
+     * S08 -- Apps, die weitere Apps installieren dürfen.
      *
-     * Ob das Recht tatsaechlich erteilt wurde, laesst sich fuer fremde Apps
+     * Ob das Recht tatsächlich erteilt wurde, lässt sich für fremde Apps
      * nicht abfragen; gemeldet wird deshalb, wer es anfordert. Bei einem
      * App-Katalog ist das erwartbar, sonst ein Weg zum Nachladen.
      */

@@ -32,12 +32,12 @@ import kotlinx.coroutines.withContext
  *
  * Ohne Symbol ist eine App-Liste eine Liste von Zeichenketten. Der Nutzer
  * erkennt sein Telefon darin nicht wieder und kann deshalb auch nicht
- * beurteilen, was da nicht hingehoert -- genau das aber ist die Aufgabe. Mit
+ * beurteilen, was da nicht hingehört -- genau das aber ist die Aufgabe. Mit
  * Symbol wird aus "com.samsung.android.heartplugin" die Uhren-App, die er
  * kennt.
  *
- * Bewusst ohne Bildbibliothek: Coil oder Glide waeren fuer diesen einen Zweck
- * ein halbes Megabyte Programmcode und eine weitere Abhaengigkeit, die
+ * Bewusst ohne Bildbibliothek: Coil oder Glide wären für diesen einen Zweck
+ * ein halbes Megabyte Programmcode und eine weitere Abhängigkeit, die
  * gepflegt werden will. Der PackageManager liefert das Symbol direkt.
  */
 @Composable
@@ -68,9 +68,9 @@ fun AppIcon(
                 contentScale = ContentScale.Fit,
             )
         } else {
-            // Bis das Symbol da ist, der Anfangsbuchstabe. Ein leeres Kaestchen
-            // laesst die Liste beim Scrollen flackern; ein Buchstabe steht
-            // ruhig und traegt sogar etwas bei.
+            // Bis das Symbol da ist, der Anfangsbuchstabe. Ein leeres Kästchen
+            // lässt die Liste beim Scrollen flackern; ein Buchstabe steht
+            // ruhig und trägt sogar etwas bei.
             Text(
                 text = label.take(1).uppercase(),
                 fontSize = (size.value / 2.4f).sp,
@@ -82,20 +82,20 @@ fun AppIcon(
 }
 
 /**
- * Gelesene Symbole, damit das Scrollen fluessig bleibt.
+ * Gelesene Symbole, damit das Scrollen flüssig bleibt.
  *
- * Der PackageManager liest bei jedem Aufruf die APK an -- auf einem Geraet
- * mit dreihundert Apps waere das bei jedem Durchscrollen erneut zu tun.
+ * Der PackageManager liest bei jedem Aufruf die APK an -- auf einem Gerät
+ * mit dreihundert Apps wäre das bei jedem Durchscrollen erneut zu tun.
  * Deshalb ein Zwischenspeicher, begrenzt auf [MAX_BYTES]: klein genug, um
- * nicht ins Gewicht zu fallen, gross genug fuer jede Liste, die jemand am
- * Stueck durchsieht.
+ * nicht ins Gewicht zu fallen, groß genug für jede Liste, die jemand am
+ * Stück durchsieht.
  */
 private object AppIconCache {
 
-    /** Kantenlaenge in Bildpunkten. Angezeigt werden hoechstens 44dp. */
+    /** Kantenlänge in Bildpunkten. Angezeigt werden höchstens 44dp. */
     private const val PIXELS = 128
 
-    /** Vier Megabyte -- rund sechzig Symbole in voller Aufloesung. */
+    /** Vier Megabyte -- rund sechzig Symbole in voller Auflösung. */
     private const val MAX_BYTES = 4 * 1024 * 1024
 
     private val cache = object : LruCache<String, ImageBitmap>(MAX_BYTES) {
@@ -104,12 +104,12 @@ private object AppIconCache {
     }
 
     /**
-     * Darf nur ausserhalb des Hauptthreads laufen -- das Lesen der APK
-     * dauert je nach Geraet einige Millisekunden.
+     * Darf nur außerhalb des Hauptthreads laufen -- das Lesen der APK
+     * dauert je nach Gerät einige Millisekunden.
      *
-     * Faellt das Lesen aus (App gerade entfernt, beschaedigtes Paket), gibt
-     * es null und die Oberflaeche zeigt den Anfangsbuchstaben. Ein Absturz
-     * waere hier die falsche Antwort auf ein fehlendes Bildchen.
+     * Fällt das Lesen aus (App gerade entfernt, beschädigtes Paket), gibt
+     * es null und die Oberfläche zeigt den Anfangsbuchstaben. Ein Absturz
+     * wäre hier die falsche Antwort auf ein fehlendes Bildchen.
      */
     fun load(context: Context, packageName: String): ImageBitmap? {
         cache.get(packageName)?.let { return it }

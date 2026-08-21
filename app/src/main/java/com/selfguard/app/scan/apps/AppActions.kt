@@ -5,25 +5,25 @@ import android.net.Uri
 import android.provider.Settings
 
 /**
- * Was mit einer App tatsaechlich getan werden kann.
+ * Was mit einer App tatsächlich getan werden kann.
  *
- * Android kennt drei sehr verschiedene Faelle, und sie zu vermischen fuehrt
- * zu Knoepfen, die nichts tun. Deshalb steht hier fuer jede App genau eine
- * Moeglichkeit.
+ * Android kennt drei sehr verschiedene Fälle, und sie zu vermischen führt
+ * zu Knöpfen, die nichts tun. Deshalb steht hier für jede App genau eine
+ * Möglichkeit.
  */
 enum class AppAction {
-    /** Selbst installiert -- laesst sich vollstaendig entfernen. */
+    /** Selbst installiert -- lässt sich vollständig entfernen. */
     ENTFERNEN,
 
     /**
-     * Ab Werk vorhanden, aber inzwischen aktualisiert. Das Update laesst sich
-     * zurueckdrehen; die urspruengliche Fassung bleibt.
+     * Ab Werk vorhanden, aber inzwischen aktualisiert. Das Update lässt sich
+     * zurückdrehen; die ursprüngliche Fassung bleibt.
      */
     UPDATES_ENTFERNEN,
 
     /**
      * Fester Systembestandteil. Nicht entfernbar, aber meist abschaltbar --
-     * danach laeuft die App nicht mehr und verschwindet aus der App-Liste.
+     * danach läuft die App nicht mehr und verschwindet aus der App-Liste.
      */
     DEAKTIVIEREN,
 
@@ -43,14 +43,14 @@ enum class RemovalBlock {
  *
  * Leitgedanke: **Das Telefon muss danach noch funktionieren.**
  *
- * Zwei Dinge kann keine Android-App fuer eine andere erledigen, egal wie viele
+ * Zwei Dinge kann keine Android-App für eine andere erledigen, egal wie viele
  * Berechtigungen sie anfordert: deinstallieren und deaktivieren. Beides ist
- * dem System vorbehalten. Fuer das Deinstallieren gibt es immerhin einen
- * Standarddialog, den wir oeffnen duerfen; fuers Deaktivieren gibt es nur die
+ * dem System vorbehalten. Für das Deinstallieren gibt es immerhin einen
+ * Standarddialog, den wir öffnen dürfen; fürs Deaktivieren gibt es nur die
  * Einstellungsseite der App, auf der der Schalter sitzt.
  *
- * Das ist keine Schwaeche dieser App, sondern Absicht des Systems -- koennte
- * ein beliebiges Programm fremde Apps abschalten, waere der erste Schritt
+ * Das ist keine Schwäche dieser App, sondern Absicht des Systems -- könnte
+ * ein beliebiges Programm fremde Apps abschalten, wäre der erste Schritt
  * jeder Schadsoftware, das Schutzprogramm stillzulegen.
  *
  * Was bleibt, ist der kurze Weg: den Nutzer mit einem Antippen genau dorthin
@@ -62,9 +62,9 @@ object AppActions {
 
     fun actionFor(app: InstalledApp): AppAction = when {
         app.packageName == OWN_PACKAGE -> AppAction.KEINE
-        // Reihenfolge wichtig: eine aktualisierte System-App traegt beide
-        // Kennzeichen. Das Zurueckdrehen des Updates ist der schonendere
-        // Eingriff und kommt deshalb zuerst.
+        // Reihenfolge wichtig: eine aktualisierte System-App trägt beide
+        // Kennzeichen. Das Zurückdrehen des Updates ist der schonendere
+        // Eingriff und kommt deshalb zürst.
         app.isUpdatedSystemApp -> AppAction.UPDATES_ENTFERNEN
         app.isSystemApp -> AppAction.DEAKTIVIEREN
         else -> AppAction.ENTFERNEN
@@ -79,30 +79,30 @@ object AppActions {
     }
 
     /**
-     * Was beim Antippen passiert -- und was danach von der App uebrig bleibt.
+     * Was beim Antippen passiert -- und was danach von der App übrig bleibt.
      *
      * Beim Deaktivieren steht bewusst dabei, dass eine Systemseite aufgeht.
      * Ein Knopf, der etwas anderes tut als er verspricht, kostet mehr
-     * Vertrauen als eine ehrliche Zeile Erklaerung.
+     * Vertrauen als eine ehrliche Zeile Erklärung.
      */
     fun explain(action: AppAction): String? = when (action) {
         AppAction.ENTFERNEN ->
-            "Die App wird vollstaendig geloescht. Android fragt vorher nach."
+            "Die App wird vollständig gelöscht. Android fragt vorher nach."
         AppAction.UPDATES_ENTFERNEN ->
-            "Setzt die App auf die Fassung zurueck, die ab Werk auf dem Geraet " +
+            "Setzt die App auf die Fassung zurück, die ab Werk auf dem Gerät " +
                 "war. Die App bleibt vorhanden und funktioniert weiter."
         AppAction.DEAKTIVIEREN ->
-            "Systembestandteil, laesst sich nicht loeschen. Es oeffnet sich die " +
+            "Systembestandteil, lässt sich nicht löschen. Es öffnet sich die " +
                 "Systemseite dieser App -- dort auf Deaktivieren tippen. Danach " +
-                "laeuft sie nicht mehr und taucht nirgends mehr auf. " +
-                "Ruecknahme jederzeit an derselben Stelle."
+                "läuft sie nicht mehr und taucht nirgends mehr auf. " +
+                "Rücknahme jederzeit an derselben Stelle."
         AppAction.KEINE -> null
     }
 
     /**
-     * Der passende Weg fuer diese App.
+     * Der passende Weg für diese App.
      *
-     * Null nur fuer SelfGuard selbst -- alles andere hat ein sinnvolles Ziel.
+     * Null nur für SelfGuard selbst -- alles andere hat ein sinnvolles Ziel.
      */
     fun intentFor(app: InstalledApp): Intent? = when (actionFor(app)) {
         AppAction.ENTFERNEN, AppAction.UPDATES_ENTFERNEN -> uninstallIntent(app.packageName)
@@ -110,7 +110,7 @@ object AppActions {
         AppAction.KEINE -> null
     }
 
-    /** Kann ueberhaupt etwas getan werden? */
+    /** Kann überhaupt etwas getan werden? */
     fun isActionable(app: InstalledApp): Boolean = actionFor(app) != AppAction.KEINE
 
     fun canUninstall(app: InstalledApp): Boolean = actionFor(app) == AppAction.ENTFERNEN
@@ -122,7 +122,7 @@ object AppActions {
     }
 
     /**
-     * Oeffnet den Standarddialog zum Deinstallieren.
+     * Öffnet den Standarddialog zum Deinstallieren.
      *
      * `ACTION_DELETE` statt der neueren Paketverwaltung, weil damit der
      * gewohnte Systemdialog erscheint -- der Nutzer sieht, was passiert, und
@@ -131,12 +131,11 @@ object AppActions {
      */
     fun uninstallIntent(packageName: String): Intent =
         Intent(Intent.ACTION_DELETE, Uri.parse("package:$packageName"))
-            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 
     /** Die App-Info-Seite in den Systemeinstellungen -- dort sitzt "Deaktivieren". */
     fun detailsIntent(packageName: String): Intent =
         Intent(
             Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
             Uri.parse("package:$packageName"),
-        ).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        )
 }

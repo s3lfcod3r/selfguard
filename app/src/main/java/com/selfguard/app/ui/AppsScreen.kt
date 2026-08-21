@@ -58,13 +58,13 @@ data class AppRow(
 /**
  * Alle installierten Apps -- ansehen, mehrere ankreuzen, nacheinander entfernen.
  *
- * Wichtig fuer die Sicherheit des Geraets: **Systembestandteile werden nicht
- * geloescht.** Sie sind ankreuzbar, fuehren aber auf ihre Systemseite, wo der
- * Schalter zum Deaktivieren sitzt. An der Zeile steht jeweils, was moeglich
- * ist -- entfernen, zuruecksetzen oder deaktivieren -- damit niemand eine
+ * Wichtig für die Sicherheit des Geräts: **Systembestandteile werden nicht
+ * gelöscht.** Sie sind ankreuzbar, führen aber auf ihre Systemseite, wo der
+ * Schalter zum Deaktivieren sitzt. An der Zeile steht jeweils, was möglich
+ * ist -- entfernen, zurücksetzen oder deaktivieren -- damit niemand eine
  * andere Wirkung erwartet als die eintretende.
  *
- * Entfernt wird ausserdem einzeln und mit Rueckfrage: Fuer jede angekreuzte
+ * Entfernt wird außerdem einzeln und mit Rückfrage: Für jede angekreuzte
  * App erscheint der gewohnte Android-Dialog. Nichts verschwindet ungefragt.
  */
 @Composable
@@ -97,7 +97,7 @@ fun AppsScreen(
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Icon(
                     Icons.AutoMirrored.Rounded.ArrowBack,
-                    contentDescription = "Zurueck",
+                    contentDescription = "Zurück",
                     tint = Self.text,
                     modifier = Modifier
                         .clip(CircleShape)
@@ -119,11 +119,11 @@ fun AppsScreen(
             Spacer(Modifier.height(8.dp))
             Text(
                 if (onlyUserApps) {
-                    "Alles, was nicht ab Werk auf dem Geraet war -- von Ihnen " +
+                    "Alles, was nicht ab Werk auf dem Gerät war -- von Ihnen " +
                         "installiert oder vom Hersteller nachgeladen. Woher genau, " +
                         "steht bei jeder App."
                 } else {
-                    "Zusaetzlich die Systembestandteile, die fest zum Geraet gehoeren."
+                    "Zusätzlich die Systembestandteile, die fest zum Gerät gehören."
                 },
                 fontSize = 11.sp,
                 color = Self.textMuted,
@@ -206,8 +206,8 @@ private fun AppRowCard(
     onOpenDetails: () -> Unit,
 ) {
     val action = AppActions.actionFor(row.app)
-    // Auch Systembestandteile sind ankreuzbar -- sie fuehren dann auf ihre
-    // Systemseite zum Deaktivieren statt in den Loeschdialog. Frueher fehlte
+    // Auch Systembestandteile sind ankreuzbar -- sie führen dann auf ihre
+    // Systemseite zum Deaktivieren statt in den Löschdialog. Früher fehlte
     // das Kreuzchen dort ganz, womit die App zwar sagte "kann man
     // deaktivieren", aber keinen Weg dorthin anbot.
     val selectable = action != AppAction.KEINE
@@ -276,13 +276,13 @@ private fun AppRowCard(
                     overflow = TextOverflow.Ellipsis,
                 )
 
-                // Was mit dieser App moeglich ist, steht direkt an der Zeile --
+                // Was mit dieser App möglich ist, steht direkt an der Zeile --
                 // sonst kreuzt jemand an und wundert sich, dass statt des
-                // Loeschdialogs eine Einstellungsseite aufgeht.
+                // Löschdialogs eine Einstellungsseite aufgeht.
                 AppActions.label(action)?.let { label ->
                     Spacer(Modifier.height(4.dp))
                     Text(
-                        "Moeglich: $label",
+                        "Möglich: $label",
                         fontSize = 11.sp,
                         color = if (action == AppAction.ENTFERNEN) Self.textMuted else Self.ice,
                     )
@@ -295,7 +295,7 @@ private fun AppRowCard(
 /**
  * Die Leiste am unteren Rand.
  *
- * Sie nennt die Auswahl getrennt nach dem, was tatsaechlich passiert: Loeschen
+ * Sie nennt die Auswahl getrennt nach dem, was tatsächlich passiert: Löschen
  * und Deaktivieren sind zwei verschiedene Dinge, und wer drei Apps ankreuzt,
  * soll vorher wissen, welche davon wirklich verschwinden.
  */
@@ -308,7 +308,7 @@ private fun RemoveBar(selectedApps: List<InstalledApp>, onRemove: () -> Unit) {
 
     val parts = buildList {
         if (toRemove > 0) add("$toRemove entfernen")
-        if (toRollBack > 0) add("$toRollBack zuruecksetzen")
+        if (toRollBack > 0) add("$toRollBack zurücksetzen")
         if (toDisable > 0) add("$toDisable deaktivieren")
     }
 
@@ -320,10 +320,10 @@ private fun RemoveBar(selectedApps: List<InstalledApp>, onRemove: () -> Unit) {
     ) {
         Text(
             buildString {
-                append("Nacheinander, mit Rueckfrage bei jeder App. ")
+                append("Nacheinander, mit Rückfrage bei jeder App. ")
                 if (toDisable > 0) {
                     append(
-                        "Zum Deaktivieren oeffnet sich die Systemseite der App -- " +
+                        "Zum Deaktivieren öffnet sich die Systemseite der App -- " +
                             "dort auf Deaktivieren tippen."
                     )
                 }

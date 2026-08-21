@@ -1,6 +1,6 @@
 package com.selfguard.app.core
 
-/** Titel, Erklaerung und Handlungsempfehlung zu einem Befund. */
+/** Titel, Erklärung und Handlungsempfehlung zu einem Befund. */
 data class FindingText(
     val title: String,
     val detail: String,
@@ -11,10 +11,10 @@ data class FindingText(
  * Klartext zu jedem Befund, zweisprachig.
  *
  * Getrennt von den Detektoren gehalten -- die bleiben dadurch frei von
- * Uebersetzungen und ohne Android-Abhaengigkeit testbar.
+ * Übersetzungen und ohne Android-Abhängigkeit testbar.
  *
- * Leitlinie fuer die Texte: erst was gefunden wurde, dann warum das zaehlt,
- * dann was zu tun ist. Kein Fachjargon ohne Erklaerung, keine Panikmache.
+ * Leitlinie für die Texte: erst was gefunden wurde, dann warum das zählt,
+ * dann was zu tun ist. Kein Fachjargon ohne Erklärung, keine Panikmache.
  */
 object FindingTexts {
 
@@ -23,147 +23,147 @@ object FindingTexts {
 
     private val GERMAN: Map<FindingCode, FindingText> = mapOf(
         FindingCode.APP_DEBUG_CERT to FindingText(
-            title = "Mit dem Standard-Testschluessel signiert",
-            detail = "Diese App wurde mit dem Android-Debug-Schluessel unterschrieben. " +
+            title = "Mit dem Standard-Testschlüssel signiert",
+            detail = "Diese App wurde mit dem Android-Debug-Schlüssel unterschrieben. " +
                 "Der liegt jedem Entwicklungswerkzeug bei und ist weltweit derselbe. " +
-                "Dadurch koennte jeder eine eigene Fassung als vermeintliches Update " +
-                "unterschieben -- die Signaturpruefung wuerde aufgehen.",
+                "Dadurch könnte jeder eine eigene Fassung als vermeintliches Update " +
+                "unterschieben -- die Signaturprüfung würde aufgehen.",
             advice = "Bei selbst gebauten Apps normal. Stammt sie von jemand anderem, " +
-                "beim Anbieter nach einer regulaer signierten Fassung fragen.",
+                "beim Anbieter nach einer regulär signierten Fassung fragen.",
         ),
         FindingCode.APP_UNKNOWN_INSTALLER to FindingText(
             title = "Herkunft nicht nachvollziehbar",
             detail = "Zu dieser App ist keine bekannte Installationsquelle hinterlegt. " +
                 "Sie kam also weder aus dem Play Store noch aus einem der eingetragenen " +
                 "Kataloge.",
-            advice = "Fuer sich genommen unbedenklich -- bei selbst installierten Apps " +
-                "ist das der Normalfall. Erst zusammen mit anderen Auffaelligkeiten " +
-                "aussagekraeftig.",
+            advice = "Für sich genommen unbedenklich -- bei selbst installierten Apps " +
+                "ist das der Normalfall. Erst zusammen mit anderen Auffälligkeiten " +
+                "aussagekräftig.",
         ),
         FindingCode.APP_HIDDEN_NO_LAUNCHER to FindingText(
-            title = "Laeuft im Hintergrund, zeigt sich aber nicht",
+            title = "Läuft im Hintergrund, zeigt sich aber nicht",
             detail = "Die App hat kein Symbol im Startbildschirm, betreibt aber " +
-                "Hintergrunddienste. Genau so verhalten sich Ueberwachungs-Apps, die " +
+                "Hintergrunddienste. Genau so verhalten sich Überwachungs-Apps, die " +
                 "der Betroffene nicht bemerken soll.",
             advice = "Nachsehen, ob die App bewusst installiert wurde. Manche " +
                 "Zusatzmodule und Tastaturen verhalten sich ebenfalls so -- ist Ihnen " +
                 "der Name unbekannt, unter Einstellungen, Apps genauer ansehen.",
         ),
         FindingCode.APP_SPY_PERMISSIONS to FindingText(
-            title = "Ungewoehnlich breiter Zugriff",
-            detail = "Diese App vereint mehrere voneinander unabhaengige " +
-                "Ueberwachungsmoeglichkeiten -- etwa Nachrichten, Standort, Mikrofon " +
-                "und Anrufliste zugleich. Einzeln ist jede davon erklaerbar, in dieser " +
+            title = "Ungewöhnlich breiter Zugriff",
+            detail = "Diese App vereint mehrere voneinander unabhängige " +
+                "Überwachungsmöglichkeiten -- etwa Nachrichten, Standort, Mikrofon " +
+                "und Anrufliste zugleich. Einzeln ist jede davon erklärbar, in dieser " +
                 "Breite selten.",
-            advice = "Ueberlegen, ob die App diese Faehigkeiten fuer ihren Zweck " +
+            advice = "Überlegen, ob die App diese Fähigkeiten für ihren Zweck " +
                 "wirklich braucht. Tippen Sie eine Zeile an -- dort steht, was ohne " +
-                "sie nicht mehr geht, und der Knopf fuehrt direkt auf die passende " +
-                "Systemeinstellung. Abschalten muessen Sie selbst: Android laesst " +
-                "keine App die Rechte einer anderen aendern.",
+                "sie nicht mehr geht, und der Knopf führt direkt auf die passende " +
+                "Systemeinstellung. Abschalten müssen Sie selbst: Android lässt " +
+                "keine App die Rechte einer anderen ändern.",
         ),
         FindingCode.APP_KNOWN_STALKERWARE to FindingText(
-            title = "Bekannte Ueberwachungssoftware",
+            title = "Bekannte Überwachungssoftware",
             detail = "Diese App steht in einem gepflegten Verzeichnis von Stalkerware -- " +
-                "Programmen, die heimlich Standort, Nachrichten und Aktivitaeten an " +
+                "Programmen, die heimlich Standort, Nachrichten und Aktivitäten an " +
                 "Dritte weitergeben. Das ist kein Verdacht, sondern ein belegter Treffer.",
             advice = "Vorsicht beim Entfernen: Wurde die App von einer Person aus Ihrem " +
                 "Umfeld installiert, kann das Verschwinden auffallen. Wenn Sie sich " +
-                "bedroht fuehlen, holen Sie sich zuerst Rat -- etwa beim Hilfetelefon " +
+                "bedroht fühlen, holen Sie sich zürst Rat -- etwa beim Hilfetelefon " +
                 "Gewalt gegen Frauen unter 116 016.",
         ),
         FindingCode.APP_ANCIENT_TARGET_SDK to FindingText(
             title = "Auf eine veraltete Android-Fassung ausgelegt",
-            detail = "Die App ist fuer Android 5 oder aelter gebaut. Damit gilt fuer sie " +
+            detail = "Die App ist für Android 5 oder älter gebaut. Damit gilt für sie " +
                 "noch das alte Modell, in dem alle Berechtigungen pauschal bei der " +
-                "Installation erteilt werden -- einzeln entziehen laesst sich dann nichts.",
+                "Installation erteilt werden -- einzeln entziehen lässt sich dann nichts.",
             advice = "Nach einer aktuellen Fassung suchen. Gibt es keine, ist die App " +
                 "vermutlich seit Jahren ohne Pflege.",
         ),
         FindingCode.APP_DEBUGGABLE to FindingText(
             title = "Im Testmodus ausgeliefert",
-            detail = "Die App traegt das debuggable-Kennzeichen. Wer Zugriff auf das " +
-                "Geraet per ADB hat, kann sich in die laufende App einklinken und ihre " +
+            detail = "Die App trägt das debuggable-Kennzeichen. Wer Zugriff auf das " +
+                "Gerät per ADB hat, kann sich in die laufende App einklinken und ihre " +
                 "gespeicherten Daten auslesen -- auch Zugangsdaten.",
             advice = "So sollte keine fertige App ausgeliefert werden. Beim Anbieter " +
-                "nachfragen oder auf eine regulaere Fassung wechseln.",
+                "nachfragen oder auf eine reguläre Fassung wechseln.",
         ),
         FindingCode.APP_BRAND_IMPERSONATION to FindingText(
             title = "Gibt sich als bekannte App aus",
-            detail = "Der angezeigte Name gehoert zu einem bekannten Anbieter, der " +
-                "technische Paketname aber nicht. Anzeigenamen sind frei waehlbar -- " +
-                "eindeutig ist nur der Paketname. Das ist der uebliche Weg, gefaelschte " +
+            detail = "Der angezeigte Name gehört zu einem bekannten Anbieter, der " +
+                "technische Paketname aber nicht. Anzeigenamen sind frei wählbar -- " +
+                "eindeutig ist nur der Paketname. Das ist der übliche Weg, gefälschte " +
                 "Banking- und Messenger-Apps unterzuschieben.",
-            advice = "Nicht oeffnen und keine Zugangsdaten eingeben. App entfernen und " +
+            advice = "Nicht öffnen und keine Zugangsdaten eingeben. App entfernen und " +
                 "die echte Fassung aus einer bekannten Quelle installieren.",
         ),
         FindingCode.APP_KNOWN_MALWARE to FindingText(
             title = "Als Schadsoftware bekannt",
             detail = "Die Programmdatei dieser App wurde gelesen und ihre " +
-                "Pruefsumme in einer Schadsoftware-Datenbank gefunden. Das ist " +
-                "kein Verdacht und keine Schaetzung, sondern ein eindeutiger " +
+                "Prüfsumme in einer Schadsoftware-Datenbank gefunden. Das ist " +
+                "kein Verdacht und keine Schätzung, sondern ein eindeutiger " +
                 "Treffer auf genau diese Datei.",
-            advice = "Diese App entfernen. Danach Passwoerter aendern, die Sie " +
-                "auf dem Geraet benutzt haben -- Schadsoftware liest sie " +
-                "haeufig mit.",
+            advice = "Diese App entfernen. Danach Passwörter ändern, die Sie " +
+                "auf dem Gerät benutzt haben -- Schadsoftware liest sie " +
+                "häufig mit.",
         ),
         FindingCode.SYS_USER_CA_CERT to FindingText(
-            title = "Nachtraeglich eingerichtetes Wurzelzertifikat",
-            detail = "Auf dem Geraet liegt ein Zertifikat, das nicht ab Werk dabei war. " +
-                "Wer ein solches Zertifikat einrichtet, kann verschluesselten Verkehr " +
+            title = "Nachträglich eingerichtetes Wurzelzertifikat",
+            detail = "Auf dem Gerät liegt ein Zertifikat, das nicht ab Werk dabei war. " +
+                "Wer ein solches Zertifikat einrichtet, kann verschlüsselten Verkehr " +
                 "aufbrechen und mitlesen. In Firmennetzen ist das gewollt, sonst " +
                 "praktisch nie.",
-            advice = "Unter Einstellungen, Sicherheit, Verschluesselung, " +
-                "Vertrauenswuerdige Anmeldedaten, Nutzer nachsehen. Kennen Sie den " +
+            advice = "Unter Einstellungen, Sicherheit, Verschlüsselung, " +
+                "Vertrauenswürdige Anmeldedaten, Nutzer nachsehen. Kennen Sie den " +
                 "Aussteller nicht, entfernen.",
         ),
         FindingCode.SYS_ACCESSIBILITY_SERVICE to FindingText(
             title = "Bedienungshilfe mit Vollzugriff aktiv",
             detail = "Ein aktiver Bedienungshilfen-Dienst sieht alles auf dem Bildschirm " +
-                "und kann Eingaben mitlesen und ausloesen -- einschliesslich Passwoertern. " +
+                "und kann Eingaben mitlesen und auslösen -- einschließlich Passwörtern. " +
                 "Passwortverwaltungen und Automatisierungswerkzeuge nutzen das legitim, " +
                 "Schadsoftware ebenso.",
-            advice = "Unter Einstellungen, Bedienungshilfen pruefen, ob Ihnen jeder " +
+            advice = "Unter Einstellungen, Bedienungshilfen prüfen, ob Ihnen jeder " +
                 "Eintrag bekannt ist. Unbekanntes abschalten.",
         ),
         FindingCode.SYS_DEVICE_ADMIN to FindingText(
-            title = "App mit Geraeteverwalter-Rechten",
-            detail = "Diese App darf das Geraet sperren, Daten loeschen und " +
-                "Passwortregeln erzwingen. Solange die Rechte aktiv sind, laesst sie " +
+            title = "App mit Geräteverwalter-Rechten",
+            detail = "Diese App darf das Gerät sperren, Daten löschen und " +
+                "Passwortregeln erzwingen. Solange die Rechte aktiv sind, lässt sie " +
                 "sich nicht normal deinstallieren -- ein beliebter Trick, um sich " +
                 "festzusetzen.",
-            advice = "Unter Einstellungen, Sicherheit, Geraeteverwaltungs-Apps pruefen. " +
-                "Rechte entziehen, dann laesst sich die App entfernen.",
+            advice = "Unter Einstellungen, Sicherheit, Geräteverwaltungs-Apps prüfen. " +
+                "Rechte entziehen, dann lässt sich die App entfernen.",
         ),
         FindingCode.SYS_NOTIFICATION_LISTENER to FindingText(
             title = "App liest alle Benachrichtigungen mit",
             detail = "Diese App bekommt jede eingehende Benachrichtigung im Wortlaut -- " +
-                "auch Nachrichten und Einmalkennwoerter von Banken.",
+                "auch Nachrichten und Einmalkennwörter von Banken.",
             advice = "Unter Einstellungen, Benachrichtigungen, Benachrichtigungszugriff " +
-                "pruefen und Unbekanntes entziehen.",
+                "prüfen und Unbekanntes entziehen.",
         ),
         FindingCode.SYS_DEVELOPER_OPTIONS to FindingText(
             title = "Entwickleroptionen aktiv",
-            detail = "Die Entwickleroptionen sind eingeschaltet. Ist zusaetzlich das " +
+            detail = "Die Entwickleroptionen sind eingeschaltet. Ist zusätzlich das " +
                 "USB-Debugging aktiv, kann jeder mit Kabelzugriff weitreichend auf das " +
-                "Geraet zugreifen.",
+                "Gerät zugreifen.",
             advice = "Wenn Sie sie nicht brauchen: Einstellungen, System, " +
                 "Entwickleroptionen ausschalten.",
         ),
         FindingCode.SYS_ROOTED to FindingText(
-            title = "Geraet ist gerootet",
-            detail = "Es wurden Anzeichen fuer Root-Zugriff gefunden. Damit ist die " +
+            title = "Gerät ist gerootet",
+            detail = "Es wurden Anzeichen für Root-Zugriff gefunden. Damit ist die " +
                 "Trennung zwischen den Apps aufgehoben -- eine App kann dann auf die " +
                 "Daten jeder anderen zugreifen. Diese Sicherheits-App eingeschlossen.",
-            advice = "Wenn Sie das Geraet bewusst gerootet haben, ist das erwartbar. " +
+            advice = "Wenn Sie das Gerät bewusst gerootet haben, ist das erwartbar. " +
                 "Andernfalls sollten Sie es ernst nehmen.",
         ),
         FindingCode.SYS_INTEGRITY to FindingText(
-            title = "Geraeteintegritaet nicht belegbar",
-            detail = "Das Geraet konnte seine Unversehrtheit nicht bestaetigen. Das " +
+            title = "Geräteintegrität nicht belegbar",
+            detail = "Das Gerät konnte seine Unversehrtheit nicht bestätigen. Das " +
                 "passiert bei entsperrtem Bootloader, eigener Firmware oder fehlenden " +
                 "Google-Diensten -- und ebenso bei einem manipulierten System.",
-            advice = "Bei einem Geraet mit eigener Firmware erwartbar. Bei einem " +
-                "unveraenderten Geraet ab Werk waere es ein ernstes Zeichen.",
+            advice = "Bei einem Gerät mit eigener Firmware erwartbar. Bei einem " +
+                "unveränderten Gerät ab Werk wäre es ein ernstes Zeichen.",
         ),
         FindingCode.SYS_UNKNOWN_SOURCES to FindingText(
             title = "App darf weitere Apps installieren",
@@ -171,21 +171,21 @@ object FindingTexts {
                 "App-Katalog oder Dateiverwalter ist das notwendig -- bei allem anderen " +
                 "ein Weg, unbemerkt nachzuladen.",
             advice = "Unter Einstellungen, Apps, Spezieller Zugriff, Unbekannte Apps " +
-                "installieren pruefen und Unnoetiges entziehen.",
+                "installieren prüfen und Unnötiges entziehen.",
         ),
         FindingCode.SYS_NO_SCREEN_LOCK to FindingText(
             title = "Keine Bildschirmsperre eingerichtet",
-            detail = "Ohne Sperre kommt jeder, der das Geraet kurz in die Hand bekommt, " +
-                "an alle Daten -- und kann in Minuten Ueberwachungssoftware einrichten. " +
-                "Ohne Sperre ist zudem die Geraeteverschluesselung wirkungslos.",
+            detail = "Ohne Sperre kommt jeder, der das Gerät kurz in die Hand bekommt, " +
+                "an alle Daten -- und kann in Minuten Überwachungssoftware einrichten. " +
+                "Ohne Sperre ist zudem die Geräteverschlüsselung wirkungslos.",
             advice = "Einstellungen, Sicherheit, Displaysperre. PIN mit mindestens " +
                 "sechs Stellen, besser ein Kennwort.",
         ),
         FindingCode.FILE_KNOWN_MALWARE to FindingText(
             title = "Datei als Schadsoftware bekannt",
-            detail = "Die Pruefsumme dieser Datei steht in einer Schadsoftware-Datenbank. " +
-                "Das ist ein eindeutiger Treffer, keine Schaetzung.",
-            advice = "Datei nicht oeffnen und nicht weitergeben. Loeschen Sie sie ueber " +
+            detail = "Die Prüfsumme dieser Datei steht in einer Schadsoftware-Datenbank. " +
+                "Das ist ein eindeutiger Treffer, keine Schätzung.",
+            advice = "Datei nicht öffnen und nicht weitergeben. Löschen Sie sie über " +
                 "Ihren Dateiverwalter.",
         ),
     )

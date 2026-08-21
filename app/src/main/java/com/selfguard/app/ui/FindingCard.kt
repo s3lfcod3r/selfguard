@@ -55,7 +55,7 @@ import com.selfguard.app.ui.theme.Self
  * Ein Befund in Klartext.
  *
  * Zugeklappt steht nur, **was** los ist und **wo**. Erst beim Antippen kommen
- * Erklaerung, Belege und die Handlungsempfehlung. Die technischen Kennungen
+ * Erklärung, Belege und die Handlungsempfehlung. Die technischen Kennungen
  * (D01, S03) tauchen bewusst nur klein und ganz unten auf -- sie helfen beim
  * Nachschlagen, sollen aber niemanden abschrecken.
  */
@@ -166,9 +166,9 @@ fun FindingCard(
 /**
  * Was der Nutzer mit dem Befund tun kann.
  *
- * Bei System-Apps fehlt der Entfernen-Knopf bewusst -- dort fuehrt der Weg in
- * die Systemeinstellungen. Entfernen loest nur den Android-Standarddialog
- * aus; SelfGuard loescht selbst nichts.
+ * Bei System-Apps fehlt der Entfernen-Knopf bewusst -- dort führt der Weg in
+ * die Systemeinstellungen. Entfernen löst nur den Android-Standarddialog
+ * aus; SelfGuard löscht selbst nichts.
  */
 @Composable
 private fun Actions(
@@ -205,7 +205,7 @@ private fun Actions(
         }
 
         // Was der Knopf bewirkt, steht darunter -- besonders beim
-        // Deaktivieren, wo sich eine Systemseite oeffnet statt eines Dialogs.
+        // Deaktivieren, wo sich eine Systemseite öffnet statt eines Dialogs.
         AppActions.explain(action)?.let { explanation ->
             Spacer(Modifier.height(6.dp))
             Text(
@@ -282,21 +282,21 @@ private fun Detail(
         }
 
         Spacer(Modifier.height(6.dp))
-        Text("Pruefung $code", fontSize = 10.sp, color = Self.textMuted)
+        Text("Prüfung $code", fontSize = 10.sp, color = Self.textMuted)
     }
 }
 
 /**
- * Eine einzelne Faehigkeit einer App -- zugeklappt nur der Name, aufgeklappt
+ * Eine einzelne Fähigkeit einer App -- zugeklappt nur der Name, aufgeklappt
  * die Folgen und der Weg dorthin.
  *
- * Zugeklappt, weil eine App mit zehn Faehigkeiten sonst eine Textwand ergibt,
- * durch die niemand liest. Die Namen allein reichen zum Ueberfliegen; wer bei
- * einer Zeile stutzt, tippt sie an und erfaehrt, was ihr Entzug kostet.
+ * Zugeklappt, weil eine App mit zehn Fähigkeiten sonst eine Textwand ergibt,
+ * durch die niemand liest. Die Namen allein reichen zum Überfliegen; wer bei
+ * einer Zeile stutzt, tippt sie an und erfährt, was ihr Entzug kostet.
  *
- * Der Knopf entzieht nichts -- er oeffnet nur die Seite, auf der der Schalter
+ * Der Knopf entzieht nichts -- er öffnet nur die Seite, auf der der Schalter
  * sitzt. Warum das so sein muss, steht in [PermissionActions]. Die
- * Beschriftung sagt es dazu, damit niemand nach dem Tippen ueberrascht in den
+ * Beschriftung sagt es dazu, damit niemand nach dem Tippen überrascht in den
  * Einstellungen steht.
  */
 @Composable
@@ -345,9 +345,9 @@ private fun CapabilityRow(
                     ) {
                         Text(
                             if (revocable) {
-                                text.action + " -- oeffnet die Systemeinstellung"
+                                text.action + " -- öffnet die Systemeinstellung"
                             } else {
-                                text.action + " -- oeffnet die App-Info"
+                                text.action + " -- öffnet die App-Info"
                             },
                             fontSize = 12.sp,
                             color = Self.teal,

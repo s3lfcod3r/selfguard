@@ -7,16 +7,16 @@ import java.security.KeyStore
 import java.security.cert.X509Certificate
 
 /**
- * S01 -- nachtraeglich eingerichtete Wurzelzertifikate.
+ * S01 -- nachträglich eingerichtete Wurzelzertifikate.
  *
- * Der aussagekraeftigste Einzelbefund, den eine App ohne Root ueberhaupt
- * erheben kann: Wer ein eigenes Wurzelzertifikat auf dem Geraet hinterlegt,
- * kann verschluesselten Verkehr aufbrechen und mitlesen.
+ * Der aussagekräftigste Einzelbefund, den eine App ohne Root überhaupt
+ * erheben kann: Wer ein eigenes Wurzelzertifikat auf dem Gerät hinterlegt,
+ * kann verschlüsselten Verkehr aufbrechen und mitlesen.
  *
- * Der Trick liegt in den Alias-Namen: Android fuehrt System- und
+ * Der Trick liegt in den Alias-Namen: Android führt System- und
  * Nutzerzertifikate im selben Speicher `AndroidCAStore`, unterscheidet sie
- * aber am Praefix -- `system:` gegen `user:`. Damit ist die Unterscheidung
- * ohne Root moeglich, obwohl das Verzeichnis der Nutzerzertifikate selbst
+ * aber am Präfix -- `system:` gegen `user:`. Damit ist die Unterscheidung
+ * ohne Root möglich, obwohl das Verzeichnis der Nutzerzertifikate selbst
  * nicht lesbar ist.
  */
 object CertificateCheck {
@@ -51,7 +51,7 @@ object CertificateCheck {
             evidence = listOfNotNull(
                 subject.takeIf { it.isNotEmpty() }?.let { "Inhaber: $it" },
                 issuer.takeIf { it.isNotEmpty() }?.let { "Aussteller: $it" },
-                "gueltig bis ${certificate.notAfter}",
+                "gültig bis ${certificate.notAfter}",
             ),
         )
     }

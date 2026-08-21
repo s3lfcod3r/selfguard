@@ -3,12 +3,12 @@ package com.selfguard.app.scan.apps
 /**
  * Bekannte Marken und die Pakete, unter denen sie echt sind.
  *
- * Zweck: gefaelschte Apps entlarven, die sich einen vertrauten Namen geben --
+ * Zweck: gefälschte Apps entlarven, die sich einen vertrauten Namen geben --
  * ein "WhatsApp", das nicht `com.whatsapp` ist, ist keins.
  *
- * Die Liste ist bewusst **konservativ**. Ein falscher Eintrag hier wuerde die
- * echte App als Faelschung melden, und ein Scanner, der bei einer Bank-App
- * grundlos Alarm schlaegt, ist schlimmer als keiner. Deshalb stehen hier nur
+ * Die Liste ist bewusst **konservativ**. Ein falscher Eintrag hier würde die
+ * echte App als Fälschung melden, und ein Scanner, der bei einer Bank-App
+ * grundlos Alarm schlägt, ist schlimmer als keiner. Deshalb stehen hier nur
  * Pakete, die zweifelsfrei stimmen. Erweitern ist jederzeit gefahrlos --
  * weglassen kostet nur einen nicht erkannten Betrugsfall, ein falscher
  * Eintrag kostet Vertrauen.
@@ -17,7 +17,7 @@ object KnownBrands {
 
     /** Angezeigter Name (normalisiert) -> alle legitimen Paketnamen. */
     val OFFICIAL: Map<String, Set<String>> = mapOf(
-        // Messenger -- die haeufigsten Ziele fuer untergeschobene Fassungen
+        // Messenger -- die häufigsten Ziele für untergeschobene Fassungen
         "whatsapp" to setOf("com.whatsapp", "com.whatsapp.w4b"),
         "telegram" to setOf("org.telegram.messenger"),
         "signal" to setOf("org.thoughtcrime.securesms"),
@@ -31,7 +31,7 @@ object KnownBrands {
         "tiktok" to setOf("com.zhiliaoapp.musically"),
         "linkedin" to setOf("com.linkedin.android"),
 
-        // Geld -- hier tut eine Faelschung am meisten weh
+        // Geld -- hier tut eine Fälschung am meisten weh
         "paypal" to setOf("com.paypal.android.p2pmobile"),
         "sparkasse" to setOf("com.starfinanz.smob.android.sfinanzstatus"),
         "ing" to setOf("de.ingdiba.bankingapp"),
@@ -47,8 +47,8 @@ object KnownBrands {
     )
 
     /**
-     * Vereinheitlicht einen Anzeigenamen fuer den Vergleich: Kleinschreibung,
-     * ohne Leerzeichen und Sonderzeichen. So faellt "Whats App" mit
+     * Vereinheitlicht einen Anzeigenamen für den Vergleich: Kleinschreibung,
+     * ohne Leerzeichen und Sonderzeichen. So fällt "Whats App" mit
      * "WhatsApp" zusammen -- ein beliebter Trick, um Sperren zu umgehen.
      */
     fun normalize(label: String): String =

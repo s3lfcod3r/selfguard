@@ -39,16 +39,16 @@ import com.selfguard.app.ui.theme.Self
 /** Zustand des Dateidurchlaufs. */
 sealed interface FileScanState {
     data object Bereit : FileScanState
-    data class Laeuft(val scanned: Int, val currentName: String) : FileScanState
+    data class Läuft(val scanned: Int, val currentName: String) : FileScanState
     data class Fertig(val result: FileScanResult) : FileScanState
 }
 
 /**
- * Dateipruefung ueber einen selbst gewaehlten Ordner.
+ * Dateiprüfung über einen selbst gewählten Ordner.
  *
- * Ein Knopf, ein Ergebnis. Die Einstellung fuer den Online-Abgleich liegt
+ * Ein Knopf, ein Ergebnis. Die Einstellung für den Online-Abgleich liegt
  * bewusst nicht hier, sondern bei den Einstellungen -- hier soll man nur
- * pruefen, nicht konfigurieren.
+ * prüfen, nicht konfigurieren.
  */
 @Composable
 fun FileScanScreen(
@@ -68,7 +68,7 @@ fun FileScanScreen(
         Row(verticalAlignment = Alignment.CenterVertically) {
             Icon(
                 Icons.AutoMirrored.Rounded.ArrowBack,
-                contentDescription = "Zurueck",
+                contentDescription = "Zurück",
                 tint = Self.text,
                 modifier = Modifier
                     .clip(CircleShape)
@@ -78,7 +78,7 @@ fun FileScanScreen(
             )
             Spacer(Modifier.width(8.dp))
             Text(
-                "Dateien pruefen",
+                "Dateien prüfen",
                 fontSize = 20.sp,
                 fontWeight = FontWeight.SemiBold,
                 color = Self.text,
@@ -87,7 +87,7 @@ fun FileScanScreen(
 
         Spacer(Modifier.height(16.dp))
         Text(
-            "Waehlen Sie einen Ordner -- meist Downloads. Jede Datei wird mit " +
+            "Wählen Sie einen Ordner -- meist Downloads. Jede Datei wird mit " +
                 "bekannter Schadsoftware abgeglichen. Ein Treffer ist eindeutig.",
             fontSize = 13.sp,
             color = Self.textMuted,
@@ -101,14 +101,14 @@ fun FileScanScreen(
                 .fillMaxWidth()
                 .height(52.dp),
             shape = RoundedCornerShape(14.dp),
-            enabled = state !is FileScanState.Laeuft,
+            enabled = state !is FileScanState.Läuft,
             colors = ButtonDefaults.buttonColors(
                 containerColor = Self.teal,
                 contentColor = Color(0xFF04120F),
             ),
         ) {
             Text(
-                if (state is FileScanState.Laeuft) "Pruefung laeuft ..." else "Ordner waehlen",
+                if (state is FileScanState.Läuft) "Prüfung läuft ..." else "Ordner wählen",
                 fontSize = 16.sp,
                 fontWeight = FontWeight.SemiBold,
             )
@@ -117,7 +117,7 @@ fun FileScanScreen(
         Spacer(Modifier.height(10.dp))
         Text(
             "SelfGuard fordert bewusst keinen Vollzugriff auf den Speicher an. " +
-                "Sie geben genau den Ordner frei, der geprueft werden soll.",
+                "Sie geben genau den Ordner frei, der geprüft werden soll.",
             fontSize = 11.sp,
             color = Self.textMuted,
         )
@@ -125,7 +125,7 @@ fun FileScanScreen(
         Spacer(Modifier.height(24.dp))
         when (state) {
             is FileScanState.Bereit -> Unit
-            is FileScanState.Laeuft -> Running(state)
+            is FileScanState.Läuft -> Running(state)
             is FileScanState.Fertig -> Result(state, lang)
         }
 
@@ -134,11 +134,11 @@ fun FileScanScreen(
 }
 
 @Composable
-private fun Running(state: FileScanState.Laeuft) {
+private fun Running(state: FileScanState.Läuft) {
     Column {
         LinearProgressIndicator(modifier = Modifier.fillMaxWidth(), color = Self.teal)
         Spacer(Modifier.height(10.dp))
-        Text("${state.scanned} Dateien geprueft", fontSize = 13.sp, color = Self.text)
+        Text("${state.scanned} Dateien geprüft", fontSize = 13.sp, color = Self.text)
         Text(state.currentName, fontSize = 11.sp, color = Self.textMuted)
     }
 }
@@ -163,8 +163,8 @@ private fun Result(state: FileScanState.Fertig, lang: String) {
             )
             Spacer(Modifier.height(2.dp))
             Text(
-                "${result.filesScanned} Dateien, $megabytes MB geprueft" +
-                    if (result.skipped > 0) ", ${result.skipped} uebersprungen" else "",
+                "${result.filesScanned} Dateien, $megabytes MB geprüft" +
+                    if (result.skipped > 0) ", ${result.skipped} übersprungen" else "",
                 fontSize = 12.sp,
                 color = Self.textMuted,
             )
