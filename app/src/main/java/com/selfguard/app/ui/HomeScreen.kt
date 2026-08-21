@@ -51,6 +51,8 @@ import com.selfguard.app.core.Capability
 import com.selfguard.app.core.RiskBand
 import com.selfguard.app.core.ScanReport
 import com.selfguard.app.scan.ScanState
+import com.selfguard.app.net.PrivateDns
+import com.selfguard.app.net.PrivateDnsStatus
 import com.selfguard.app.scan.apps.AppAction
 import com.selfguard.app.scan.ScanStep
 import com.selfguard.app.ui.theme.BandColors
@@ -73,12 +75,14 @@ fun HomeScreen(
     filterBusy: Boolean,
     blockedToday: Long,
     foreignVpnActive: Boolean,
+    privateDns: PrivateDns,
     onScan: () -> Unit,
     onToggleFilter: (Boolean) -> Unit,
     appActions: Map<String, AppAction>,
     knownPackages: Set<String>,
     onOpenFiles: () -> Unit,
     onOpenApps: () -> Unit,
+    onOpenMethods: () -> Unit,
     onAct: (String) -> Unit,
     onOpenDetails: (String) -> Unit,
     onOpenCapability: (String, Capability) -> Unit,
@@ -101,7 +105,15 @@ fun HomeScreen(
         ScanButton(scanState, onScan)
 
         Spacer(Modifier.height(28.dp))
-        AdBlockCard(filterRunning, filterBusy, blockedToday, foreignVpnActive, onToggleFilter)
+        AdBlockCard(
+            running = filterRunning,
+            busy = filterBusy,
+            blockedToday = blockedToday,
+            foreignVpnActive = foreignVpnActive,
+            privateDns = privateDns,
+            onToggle = onToggleFilter,
+            onOpenMethods = onOpenMethods,
+        )
 
         Spacer(Modifier.height(10.dp))
         FileScanRow(onOpenFiles)
@@ -311,7 +323,9 @@ private fun AdBlockCard(
     busy: Boolean,
     blockedToday: Long,
     foreignVpnActive: Boolean,
+    privateDns: PrivateDns,
     onToggle: (Boolean) -> Unit,
+    onOpenMethods: () -> Unit,
 ) {
     Card(
         modifier = Modifier.fillMaxWidth(),
@@ -361,6 +375,32 @@ private fun AdBlockCard(
                     color = Self.yellow,
                 )
             }
+
+            // Wer bereits einen filternden Anbieter eingestellt hat,
+            // braucht den eigenen Filter nicht -- das gehoert auf die
+            // Startseite und nicht in eine Unterseite.
+            val dns = privateDns
+            if (dns is PrivateDns.Anbieter &&
+                PrivateDnsStatus.looksLikeFiltering(dns.hostname) && !running
+            ) {
+                Spacer(Modifier.height(10.dp))
+                Text(
+                    "Sie nutzen bereits privates DNS über ${dns.hostname}. " +
+                        "Das filtert vermutlich schon Werbung -- dieser Schalter " +
+                        "bringt dann kaum noch etwas.",
+                    fontSize = 12.sp,
+                    color = Self.ice,
+                )
+            }
+
+            Spacer(Modifier.height(12.dp))
+            Text(
+                "Warum dafür ein VPN-Symbol erscheint, und welche Wege es " +
+                    "sonst gibt",
+                modifier = Modifier.clickable(onClick = onOpenMethods),
+                fontSize = 12.sp,
+                color = Self.teal,
+            )
         }
     }
 }

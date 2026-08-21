@@ -3,7 +3,9 @@ package com.selfguard.app
 import android.Manifest
 import android.app.Activity
 import android.net.Uri
+import android.content.Intent
 import android.net.VpnService
+import android.provider.Settings
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -20,6 +22,8 @@ import com.selfguard.app.ioc.IocUpdater
 import com.selfguard.app.net.BlocklistTier
 import com.selfguard.app.net.BlocklistUpdater
 import com.selfguard.app.net.DnsFilterService
+import com.selfguard.app.net.PrivateDns
+import com.selfguard.app.net.PrivateDnsStatus
 import com.selfguard.app.net.VpnStatus
 import com.selfguard.app.scan.ScanEngine
 import com.selfguard.app.scan.apps.AppAction
@@ -48,6 +52,7 @@ class MainActivity : ComponentActivity() {
     private val updateState = mutableStateOf<ListUpdateState>(ListUpdateState.Ruht)
     private val iocSummary = mutableStateOf(emptyList<String>())
     private val foreignVpn = mutableStateOf(false)
+    private val privateDns = mutableStateOf<PrivateDns>(PrivateDns.Aus)
     private val fileScanState = mutableStateOf<FileScanState>(FileScanState.Bereit)
     private val reputationEnabled = mutableStateOf(false)
     private val reputationEndpoint = mutableStateOf("")
@@ -119,6 +124,7 @@ class MainActivity : ComponentActivity() {
                     filterBusy = filterBusy.value,
                     blockedToday = filterStats.blocked,
                     foreignVpnActive = foreignVpn.value,
+                    privateDns = privateDns.value,
                     tier = tier.value,
                     blockedDomains = blockedDomains.value,
                     updateState = updateState.value,
@@ -141,6 +147,7 @@ class MainActivity : ComponentActivity() {
                     onLoadApps = ::loadApps,
                     onUninstall = ::startUninstall,
                     onOpenDetails = ::openAppDetails,
+                    onOpenNetworkSettings = ::openNetworkSettings,
                     onOpenCapability = ::openCapability,
                 )
             }
@@ -150,6 +157,9 @@ class MainActivity : ComponentActivity() {
     override fun onResume() {
         super.onResume()
         foreignVpn.value = VpnStatus.foreignVpnActive(this)
+        // Bei jeder Rueckkehr neu lesen -- der Nutzer koennte die Einstellung
+        // gerade in den Systemeinstellungen geaendert haben.
+        privateDns.value = PrivateDnsStatus.read(this)
     }
 
     private fun lastScanText(): String {
@@ -329,6 +339,22 @@ class MainActivity : ComponentActivity() {
             }
             publishApps(apps)
             appsLoading.value = false
+        }
+    }
+
+    /**
+     * Fuehrt in die Netzwerkeinstellungen, wo das private DNS sitzt.
+     *
+     * Direkter geht es nicht: Android kennt keine oeffentliche Aktion fuer
+     * die Private-DNS-Seite, und der versteckte Aufruf heisst je nach
+     * Hersteller anders. Lieber verlaesslich eine Ebene zu hoch landen als
+     * mit einem Absturz auf einem fremden Geraet.
+     */
+    private fun openNetworkSettings() {
+        runCatching {
+            startActivity(Intent(Settings.ACTION_WIRELESS_SETTINGS))
+        }.onFailure {
+            runCatching { startActivity(Intent(Settings.ACTION_SETTINGS)) }
         }
     }
 

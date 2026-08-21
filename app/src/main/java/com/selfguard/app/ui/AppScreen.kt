@@ -9,10 +9,11 @@ import androidx.compose.runtime.setValue
 import com.selfguard.app.core.Capability
 import com.selfguard.app.net.BlocklistTier
 import com.selfguard.app.scan.ScanState
+import com.selfguard.app.net.PrivateDns
 import com.selfguard.app.scan.apps.AppAction
 
 /** Die vier Ansichten. Kein Reiter-Menü -- man ist immer auf genau einer. */
-private enum class Ansicht { START, APPS, DATEIEN, EINSTELLUNGEN }
+private enum class Ansicht { START, APPS, DATEIEN, METHODEN, EINSTELLUNGEN }
 
 /**
  * Ganz einfache Navigation.
@@ -31,6 +32,7 @@ fun AppScreen(
     filterBusy: Boolean,
     blockedToday: Long,
     foreignVpnActive: Boolean,
+    privateDns: PrivateDns,
     tier: BlocklistTier,
     blockedDomains: Int,
     updateState: ListUpdateState,
@@ -53,6 +55,7 @@ fun AppScreen(
     onLoadApps: () -> Unit,
     onUninstall: (List<String>) -> Unit,
     onOpenDetails: (String) -> Unit,
+    onOpenNetworkSettings: () -> Unit,
     onOpenCapability: (String, Capability) -> Unit,
 ) {
     var ansicht by remember { mutableStateOf(Ansicht.START) }
@@ -68,11 +71,13 @@ fun AppScreen(
             filterBusy = filterBusy,
             blockedToday = blockedToday,
             foreignVpnActive = foreignVpnActive,
+            privateDns = privateDns,
             onScan = onScan,
             onToggleFilter = onToggleFilter,
             appActions = appActions,
             knownPackages = knownPackages,
             onOpenFiles = { ansicht = Ansicht.DATEIEN },
+            onOpenMethods = { ansicht = Ansicht.METHODEN },
             onOpenApps = {
                 onLoadApps()
                 ansicht = Ansicht.APPS
@@ -89,6 +94,13 @@ fun AppScreen(
             onBack = { ansicht = Ansicht.START },
             onUninstall = onUninstall,
             onOpenDetails = onOpenDetails,
+        )
+
+        Ansicht.METHODEN -> BlockingMethodsScreen(
+            filterRunning = filterRunning,
+            privateDns = privateDns,
+            onBack = { ansicht = Ansicht.START },
+            onOpenNetworkSettings = onOpenNetworkSettings,
         )
 
         Ansicht.DATEIEN -> FileScanScreen(
