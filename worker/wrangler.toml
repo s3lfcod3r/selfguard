@@ -1,0 +1,16 @@
+name = "selfguard-reputation"
+main = "src/index.js"
+compatibility_date = "2026-08-18"
+
+# Schluessel NICHT hier eintragen. Sie gehoeren als Secrets in Cloudflare:
+#   npx wrangler secret put MALWAREBAZAAR_KEY
+#   npx wrangler secret put VIRUSTOTAL_KEY
+
+# Durchsatzbegrenzung je Absenderadresse. Ohne sie koennte jeder, der die
+# Adresse kennt, das VirusTotal-Kontingent (rund 500 Abfragen taeglich)
+# leerlaufen lassen.
+[[unsafe.bindings]]
+name = "REPUTATION_LIMITER"
+type = "ratelimit"
+namespace_id = "1001"
+simple = { limit = 60, period = 60 }

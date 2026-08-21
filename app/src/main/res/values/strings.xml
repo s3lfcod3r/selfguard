@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SelfGuard</string>
+    <string name="filter_channel">Netzfilter</string>
+    <string name="filter_active">Netzfilter aktiv</string>
+    <string name="filter_blocked_count">%1$d Anfragen geblockt</string>
+</resources>

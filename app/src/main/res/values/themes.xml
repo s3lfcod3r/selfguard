@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.SelfGuard" parent="android:Theme.Material.NoActionBar">
+        <item name="android:statusBarColor">#080C11</item>
+        <item name="android:navigationBarColor">#080C11</item>
+        <item name="android:windowBackground">#080C11</item>
+    </style>
+</resources>
