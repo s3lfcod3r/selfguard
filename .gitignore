@@ -10,3 +10,6 @@ captures/
 keystore.properties
 *.jks
 *.keystore
+
+# Android-Quellcode: nur lokal, NICHT pushen
+/_android-src/
