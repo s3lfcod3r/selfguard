@@ -179,11 +179,24 @@ sagt es jetzt ausdrücklich, statt still nichts zu tun.
   Rückfallverhalten sind geprüft: fehlt das Binding, lässt der Dienst die
   Anfrage durch, statt alles zu blockieren.
 
-## Lizenz
+## ⚖️ Lizenz / License
 
-GPL-2.0 (siehe [LICENSE](LICENSE)).
+**🇩🇪 Alle Rechte vorbehalten.** © 2026 s3lfcod3r / SelfCoder
 
-Der mitgelieferte Stalkerware-Datensatz stammt von
-[Echap](https://github.com/AssoEchap/stalkerware-indicators) und steht unter
-CC-BY 4.0 -- die Namensnennung steht in der App unter *Einstellungen,
-Datenquellen*.
+Du darfst die Software **privat und nicht-kommerziell** installieren und benutzen (z. B. im Homelab, über Docker oder Unraid).
+
+**Ohne schriftliche Erlaubnis verboten:** kommerzielle Nutzung · Kopieren · Verändern · Weitergeben · Einbauen in eigene Projekte (auch Closed Source) · Verkaufen.
+
+Der mitgelieferte Stalkerware-Datensatz stammt von [Echap](https://github.com/AssoEchap/stalkerware-indicators) und bleibt unter CC-BY 4.0 (Namensnennung in der App unter *Einstellungen, Datenquellen*). Die anderen Datenquellen behalten ihre Lizenzen (siehe Tabelle oben).
+
+Details: [LICENSE](LICENSE)
+
+**🇬🇧 All rights reserved.** © 2026 s3lfcod3r / SelfCoder
+
+You may install and use the software **privately and non-commercially** (e.g. in your home lab, via Docker or Unraid).
+
+**Not permitted without written permission:** commercial use · copying · modifying · redistributing · incorporating into other projects (including closed source) · selling.
+
+The bundled stalkerware dataset is by [Echap](https://github.com/AssoEchap/stalkerware-indicators) and stays under CC-BY 4.0 (attribution in the app under *Settings, Data sources*). Other data sources keep their licenses (see table above).
+
+Details: [LICENSE](LICENSE)
