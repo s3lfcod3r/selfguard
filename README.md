@@ -11,6 +11,7 @@
 ![Stack](https://img.shields.io/badge/stack-Kotlin%20%C2%B7%20Compose-43D3AD)
 ![App](https://img.shields.io/badge/app-Android%208%2B-9DBDD0)
 ![Worker](https://img.shields.io/badge/worker-Cloudflare-1F7763)
+[![Ko-fi](https://img.shields.io/badge/Ko--fi-support%20me-FF5E5B?logo=ko-fi&logoColor=white)](https://ko-fi.com/s3lfcod3r)
 
 **[🇬🇧 English](#-english) · [🇩🇪 Deutsch](#-deutsch)**
 
@@ -385,6 +386,16 @@ JAVA_HOME=/pfad/zu/jdk21 gradle testDebugUnitTest
 - [ ] Durchsatzbegrenzung des Workers an einer echten Cloudflare-Bereitstellung testen
 
 <p align="right"><a href="#-deutsch">⬆ nach oben</a></p>
+
+---
+
+## ☕ Support / Unterstützen
+
+**🇬🇧** This project is free for private use and built in my spare time. If it saves you time, a coffee keeps the next update coming. No pressure, a ⭐ on the repo helps too!
+
+**🇩🇪** Dieses Projekt ist für private Nutzung kostenlos und entsteht in meiner Freizeit. Wenn es dir Zeit spart, hält ein Kaffee das nächste Update am Laufen. Kein Muss, ein ⭐ auf dem Repo hilft auch!
+
+<a href="https://ko-fi.com/s3lfcod3r"><img src="https://ko-fi.com/img/githubbutton_sm.svg" alt="Support me on Ko-fi" /></a>
 
 ---
 
