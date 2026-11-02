@@ -119,6 +119,11 @@ fun SettingsScreen(
         Spacer(Modifier.height(8.dp))
         Sources(iocSummary, onUpdateIocs)
 
+        Spacer(Modifier.height(28.dp))
+        SectionTitle("Unterstützen")
+        Spacer(Modifier.height(8.dp))
+        KofiSection()
+
         Spacer(Modifier.height(32.dp))
     }
 }
