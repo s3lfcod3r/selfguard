@@ -148,16 +148,19 @@ private fun Header(onOpenSettings: () -> Unit) {
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {
         SelfGuardWordmark(fontSize = 24.sp)
-        Icon(
-            imageVector = Icons.Rounded.Settings,
-            contentDescription = "Einstellungen",
-            tint = Self.textMuted,
-            modifier = Modifier
-                .clip(CircleShape)
-                .clickable(onClick = onOpenSettings)
-                .padding(8.dp)
-                .size(24.dp),
-        )
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            KofiIcon()
+            Icon(
+                imageVector = Icons.Rounded.Settings,
+                contentDescription = "Einstellungen",
+                tint = Self.textMuted,
+                modifier = Modifier
+                    .clip(CircleShape)
+                    .clickable(onClick = onOpenSettings)
+                    .padding(8.dp)
+                    .size(24.dp),
+            )
+        }
     }
 }
 
